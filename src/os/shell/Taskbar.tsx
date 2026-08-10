@@ -1,14 +1,12 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
-import { LogOut, Power, RotateCcw } from 'lucide-react';
 import { SosMark } from '@/components/brand';
 import { ProgramIcon } from '@/components/icons';
-import { GlassPanel } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
-import { applications, getApp, getLaunchableApps } from '@/os/registry/applications';
-import { useSystemStore } from '@/stores/systemStore';
+import { applications, getApp } from '@/os/registry/applications';
 import { useWindowStore } from '@/stores/windowStore';
+import { StartMenu } from './StartMenu';
 import { SystemTray } from './SystemTray';
 
 /**
@@ -94,30 +92,30 @@ export function Taskbar() {
 }
 
 /**
- * Minimal Start menu.
+ * The Start button and its menu.
  *
- * Milestone 6 replaces the contents with the full menu — search, All Programs,
- * recent items. The button, the popover mechanics and the power controls stay.
+ * The button owns only the open state and the two ways anyone expects to
+ * dismiss a menu — clicking away, and Escape. Everything inside is the
+ * StartMenu's business.
  */
 function StartButton() {
   const [open, setOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
 
-  const openApp = useWindowStore((state) => state.openApp);
-  const logOff = useSystemStore((state) => state.logOff);
-  const restart = useSystemStore((state) => state.restart);
-  const shutdown = useSystemStore((state) => state.shutdown);
-
-  // Close on outside click and on Escape — the two ways anyone expects to
-  // dismiss a menu.
   useEffect(() => {
     if (!open) return;
 
     const onPointerDown = (event: PointerEvent) => {
       if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
     };
+
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
+      if (event.key !== 'Escape') return;
+      setOpen(false);
+      // Focus returns to the button that opened the menu, rather than being
+      // dropped on the body where the next Tab starts from the top of the page.
+      buttonRef.current?.focus();
     };
 
     window.addEventListener('pointerdown', onPointerDown);
@@ -128,13 +126,26 @@ function StartButton() {
     };
   }, [open]);
 
+  // Ctrl+Escape opens Start, as it does on Windows.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (!event.ctrlKey || event.key !== 'Escape') return;
+      event.preventDefault();
+      setOpen((value) => !value);
+    };
+
+    window.addEventListener('keydown', onKeyDown);
+    return () => window.removeEventListener('keydown', onKeyDown);
+  }, []);
+
   return (
     <div ref={containerRef} className="relative">
       <button
+        ref={buttonRef}
         type="button"
         onClick={() => setOpen((value) => !value)}
         aria-expanded={open}
-        aria-haspopup="menu"
+        aria-haspopup="dialog"
         aria-label="Start"
         className={cn(
           'flex h-9 items-center gap-2 rounded-sm px-2.5 transition-colors',
@@ -145,70 +156,8 @@ function StartButton() {
         <span className="text-[12.5px] font-medium">Start</span>
       </button>
 
-      {open ? (
-        <GlassPanel
-          tone="strong"
-          role="menu"
-          aria-label="Start menu"
-          className="shadow-menu absolute bottom-[calc(100%+6px)] left-0 w-64 overflow-hidden p-1.5"
-        >
-          <ul className="flex flex-col">
-            {getLaunchableApps().map((app) => (
-              <li key={app.id}>
-                <button
-                  type="button"
-                  role="menuitem"
-                  onClick={() => {
-                    openApp(app.id);
-                    setOpen(false);
-                  }}
-                  className="hover:bg-glass-strong flex w-full items-center gap-2.5 rounded-sm px-2 py-1.5 text-left transition-colors"
-                >
-                  <ProgramIcon icon={app.icon} size={18} />
-                  <span className="text-[12.5px]">{app.name}</span>
-                </button>
-              </li>
-            ))}
-          </ul>
-
-          <div className="bg-glass-border my-1.5 h-px" aria-hidden="true" />
-
-          <div className="flex items-center justify-between px-1 pb-0.5">
-            <PowerAction label="Log off" onSelect={logOff}>
-              <LogOut size={14} />
-            </PowerAction>
-            <PowerAction label="Restart" onSelect={restart}>
-              <RotateCcw size={14} />
-            </PowerAction>
-            <PowerAction label="Shut down" onSelect={shutdown}>
-              <Power size={14} />
-            </PowerAction>
-          </div>
-        </GlassPanel>
-      ) : null}
+      {open ? <StartMenu onDismiss={() => setOpen(false)} /> : null}
     </div>
-  );
-}
-
-function PowerAction({
-  label,
-  onSelect,
-  children,
-}: {
-  label: string;
-  onSelect: () => void;
-  children: React.ReactNode;
-}) {
-  return (
-    <button
-      type="button"
-      role="menuitem"
-      onClick={onSelect}
-      className="text-muted hover:bg-glass-strong hover:text-primary flex items-center gap-1.5 rounded-sm px-2 py-1.5 text-[11.5px] transition-colors"
-    >
-      <span aria-hidden="true">{children}</span>
-      {label}
-    </button>
   );
 }
 

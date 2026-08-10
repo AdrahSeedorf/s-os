@@ -171,6 +171,18 @@
     -webkit-backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
   }
 
+  /* Menus, tray flyouts and context menus. Near-opaque by design — see the
+     note on --sos-menu-bg. */
+  .sos-menu {
+    background-color: var(--sos-menu-bg);
+    border: 1px solid var(--sos-menu-border);
+    box-shadow:
+      var(--sos-shadow-menu),
+      inset 0 1px 0 0 var(--sos-glass-highlight);
+    backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+  }
+
   /* Recessed wells: terminal, code blocks, inputs. */
   .sos-inset {
     background-color: var(--sos-bg-inset);

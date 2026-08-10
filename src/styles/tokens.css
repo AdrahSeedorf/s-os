@@ -61,6 +61,14 @@
   --sos-chrome-bg-inactive: rgb(10 16 24 / 0.62);
   --sos-taskbar-bg: rgb(7 14 22 / 0.78);
 
+  /* Menus need their own, much more opaque surface.
+     Glass is tuned to sit over the wallpaper; a menu can open over desktop
+     icons or a window full of text, and at 11% white those read straight
+     through it. Menus are transient and small, so the cost of being nearly
+     opaque is low and the legibility gain is the whole point. */
+  --sos-menu-bg: rgb(13 24 35 / 0.96);
+  --sos-menu-border: rgb(255 255 255 / 0.16);
+
   /* --- Status ----------------------------------------------------------
      Drives project status badges. Meaning is never carried by colour alone;
      every badge also carries a text label. */
@@ -163,6 +171,8 @@
   --sos-chrome-bg: #101c27;
   --sos-chrome-bg-inactive: #0c1620;
   --sos-taskbar-bg: #0a141d;
+  --sos-menu-bg: #0d1824;
+  --sos-menu-border: #96b3cc;
 
   --sos-text-secondary: rgb(235 245 255 / 0.94);
   --sos-text-muted: rgb(220 235 248 / 0.85);
