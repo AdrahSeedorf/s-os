@@ -45,6 +45,11 @@ export interface AppDefinition {
   /** Hidden from the Start menu and All Programs. Used for windows that are
    *  always opened by something else, like an individual project. */
   hidden?: boolean;
+  /** Gets an icon on the desktop. Reserved for the handful of things a
+   *  visitor should not have to go looking for. */
+  desktopShortcut?: boolean;
+  /** Pinned to the taskbar, left of the running windows. */
+  pinned?: boolean;
 }
 
 /**
@@ -67,6 +72,8 @@ export const applications: readonly AppDefinition[] = [
     description: 'Professional summary, best projects, resume and contact details.',
     component: placeholder('Milestone 7'),
     defaultSize: { width: 880, height: 640 },
+    desktopShortcut: true,
+    pinned: true,
   },
   {
     id: 'projects',
@@ -76,6 +83,8 @@ export const applications: readonly AppDefinition[] = [
     description: 'Browse installed programs by category.',
     component: placeholder('Milestone 8'),
     defaultSize: { width: 840, height: 560 },
+    desktopShortcut: true,
+    pinned: true,
   },
   {
     id: 'project',
@@ -96,6 +105,7 @@ export const applications: readonly AppDefinition[] = [
     description: 'Profile, background and current focus.',
     component: placeholder('Milestone 7'),
     defaultSize: { width: 660, height: 540 },
+    desktopShortcut: true,
   },
   {
     id: 'skills',
@@ -114,6 +124,7 @@ export const applications: readonly AppDefinition[] = [
     description: 'Curriculum vitae, viewable and downloadable.',
     component: placeholder('Milestone 7'),
     defaultSize: { width: 720, height: 640 },
+    desktopShortcut: true,
   },
   {
     id: 'explorer',
@@ -123,6 +134,7 @@ export const applications: readonly AppDefinition[] = [
     description: 'Browse the S-OS drives.',
     component: placeholder('Milestone 8'),
     defaultSize: { width: 860, height: 560 },
+    pinned: true,
     allowMultiple: true,
   },
   {
@@ -143,6 +155,8 @@ export const applications: readonly AppDefinition[] = [
     component: placeholder('Milestone 9'),
     defaultSize: { width: 720, height: 460 },
     constraints: { minWidth: 420, minHeight: 260 },
+    desktopShortcut: true,
+    pinned: true,
   },
   {
     id: 'system-info',
@@ -161,6 +175,7 @@ export const applications: readonly AppDefinition[] = [
     description: 'Send a message, or find the direct links.',
     component: placeholder('Milestone 11'),
     defaultSize: { width: 560, height: 560 },
+    desktopShortcut: true,
     constraints: { maximisable: false },
   },
   {

@@ -51,8 +51,15 @@ export function Wallpaper({ dimmed = false, className }: WallpaperProps) {
             <stop offset="100%" stopColor="var(--sos-accent-400)" stopOpacity="0" />
           </radialGradient>
 
-          <filter id="sos-wall-blur" x="-25%" y="-25%" width="150%" height="150%">
-            <feGaussianBlur stdDeviation="26" />
+          {/*
+            The filter region has to be generously larger than the shape.
+            A Gaussian blur spreads roughly 3× its standard deviation, and the
+            group this applies to is scaled 6.4×, so a region sized to the
+            path's own bounding box clips the bloom and leaves a visible
+            rectangular seam across the wallpaper.
+          */}
+          <filter id="sos-wall-blur" x="-100%" y="-100%" width="300%" height="300%">
+            <feGaussianBlur stdDeviation="18" />
           </filter>
         </defs>
 
@@ -60,11 +67,17 @@ export function Wallpaper({ dimmed = false, className }: WallpaperProps) {
 
         {/* Ambient light behind the form, so the S appears to emit rather than
             sit on top. */}
-        <ellipse cx="1010" cy="450" rx="620" ry="470" fill="url(#sos-wall-glow)" />
+        <ellipse cx="1080" cy="470" rx="560" ry="430" fill="url(#sos-wall-glow)" />
 
-        {/* The mark's S curve, scaled from its 100-unit grid to fill the field.
-            Drawn twice: a wide blurred pass for the bloom, a crisp pass on top. */}
-        <g transform="translate(700 130) scale(6.4)">
+        {/*
+          The mark's S curve, scaled from its 100-unit grid to fill the field.
+          Drawn twice: a wide blurred pass for the bloom, a crisp pass on top.
+
+          Sits right of centre and is held well below full opacity. Desktop
+          icons occupy the left of the screen, and a wallpaper that competes
+          with its own icon labels is a wallpaper that has to be replaced.
+        */}
+        <g transform="translate(790 190) scale(5.6)" opacity="0.62">
           <path
             d={S_CURVE_PATH}
             fill="none"
@@ -72,7 +85,7 @@ export function Wallpaper({ dimmed = false, className }: WallpaperProps) {
             strokeWidth="13"
             strokeLinecap="round"
             filter="url(#sos-wall-blur)"
-            opacity="0.55"
+            opacity="0.5"
           />
           <path
             d={S_CURVE_PATH}
@@ -80,7 +93,7 @@ export function Wallpaper({ dimmed = false, className }: WallpaperProps) {
             stroke="url(#sos-wall-s)"
             strokeWidth="4.2"
             strokeLinecap="round"
-            opacity="0.9"
+            opacity="0.85"
           />
         </g>
 
