@@ -3,6 +3,11 @@ import type { Size, WindowConstraints } from '@/types/window';
 import { DEFAULT_CONSTRAINTS } from '@/types/window';
 import { PlaceholderApp } from '@/apps/PlaceholderApp';
 import { ProjectApp } from '@/apps/ProjectApp';
+import { RecruiterApp } from '@/apps/RecruiterApp';
+import { AboutApp } from '@/apps/AboutApp';
+import { SkillsApp } from '@/apps/SkillsApp';
+import { ResumeApp } from '@/apps/ResumeApp';
+import { SystemInfoApp } from '@/apps/SystemInfoApp';
 
 /**
  * The application registry.
@@ -70,7 +75,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Recruiter Mode',
     icon: 'recruiter',
     description: 'Professional summary, best projects, resume and contact details.',
-    component: placeholder('Milestone 7'),
+    component: RecruiterApp,
     defaultSize: { width: 880, height: 640 },
     desktopShortcut: true,
     pinned: true,
@@ -103,7 +108,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'About Seedorf',
     icon: 'about',
     description: 'Profile, background and current focus.',
-    component: placeholder('Milestone 7'),
+    component: AboutApp,
     defaultSize: { width: 660, height: 540 },
     desktopShortcut: true,
   },
@@ -113,7 +118,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Skills',
     icon: 'skills',
     description: 'Installed technologies and capability levels.',
-    component: placeholder('Milestone 7'),
+    component: SkillsApp,
     defaultSize: { width: 720, height: 560 },
   },
   {
@@ -122,7 +127,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Resume',
     icon: 'resume',
     description: 'Curriculum vitae, viewable and downloadable.',
-    component: placeholder('Milestone 7'),
+    component: ResumeApp,
     defaultSize: { width: 720, height: 640 },
     desktopShortcut: true,
   },
@@ -164,7 +169,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'System Information',
     icon: 'system-info',
     description: 'S-OS specification and installed technologies.',
-    component: placeholder('Milestone 7'),
+    component: SystemInfoApp,
     defaultSize: { width: 640, height: 560 },
   },
   {
