@@ -178,6 +178,20 @@
     box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.5);
   }
 
+  /* Windows scale up slightly as they open. No bounce — an operating system
+     should feel mechanical. Neutralised by prefers-reduced-motion via the
+     motion-safe variant at the call site. */
+  @keyframes sos-window-open {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
   /* Screen-reader-only, but focusable when used for skip links. */
   .sr-only {
     position: absolute;
