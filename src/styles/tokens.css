@@ -70,6 +70,23 @@
   --sos-status-planned: #94a3b8;
   --sos-status-danger: #fb7185;
 
+  /* --- Program icons ---------------------------------------------------
+     Icons are two-tone: a dominant body and a lighter detail, with an
+     occasional deep tone for contrast. Expressed as variables rather than
+     SVG gradients because gradient ids collide when the same icon renders
+     many times on one screen — which is exactly what a desktop does.
+
+     Folders keep a warm tint. Classic desktops trained everyone to scan for
+     yellow folders among blue applications, and that habit is worth using. */
+  --sos-icon-base: var(--sos-accent-500);
+  --sos-icon-tint: var(--sos-accent-200);
+  --sos-icon-deep: var(--sos-accent-800);
+  --sos-icon-folder: #e0a83a;
+  --sos-icon-folder-tint: #f6d99a;
+  --sos-icon-folder-deep: #8a5f14;
+  --sos-icon-neutral: #94a3b8;
+  --sos-icon-neutral-tint: #cbd5e1;
+
   /* --- Focus -----------------------------------------------------------
      A single, loud, never-removed focus treatment. Keyboard operability is
      a hard constraint in S-OS, so the focus ring is a first-class token. */
