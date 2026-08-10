@@ -9,19 +9,29 @@ import {
 } from '@/components/ui';
 import { SosMark, SosWordmark, Wallpaper } from '@/components/brand';
 import { ProgramIcon, iconRegistry } from '@/components/icons';
+import { BootManager } from '@/os/boot/BootManager';
+import { SessionBar } from '@/os/boot/SessionBar';
 import { getFeaturedProjects, getProjects, getSkillsForProject } from '@/lib/content';
 import { buildFileSystem, listChildren, toDisplayPath } from '@/lib/content/filesystem';
 import { PROJECT_STATUS_LABEL, type ProjectStatus } from '@/types/content';
 import type { BadgeTone } from '@/components/ui';
 
 /**
- * Milestone 2 review page.
+ * Milestone 3 review page.
  *
- * Now rendered over the real wallpaper, which is the first point at which the
- * glass surfaces can be judged — backdrop blur has nothing to say over a flat
- * background. Becomes the desktop shell in Milestone 5.
+ * Wrapped in the BootManager, so reaching this content now requires powering
+ * on and entering through one of the three routes. The body below becomes the
+ * real desktop in Milestone 5.
  */
 export default function FoundationPage() {
+  return (
+    <BootManager>
+      <DesktopPlaceholder />
+    </BootManager>
+  );
+}
+
+function DesktopPlaceholder() {
   const projects = getProjects();
   const featured = getFeaturedProjects();
   const fs = buildFileSystem();
@@ -37,12 +47,13 @@ export default function FoundationPage() {
             <SosWordmark size="lg" showFullName />
             <div className="flex items-center gap-3">
               <Badge tone="dev" dot>
-                Milestone 2
+                Milestone 3
               </Badge>
               <p className="text-secondary text-[13px]">
-                Brand system, wallpaper and icon set.
+                Boot sequence, login and session lifecycle.
               </p>
             </div>
+            <SessionBar />
           </header>
 
           <Section title="The mark" note="One mark, every size">
