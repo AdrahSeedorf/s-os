@@ -1,0 +1,203 @@
+@import 'tailwindcss';
+@import '../styles/tokens.css';
+
+/* --------------------------------------------------------------------------
+   Bridge the design tokens into Tailwind's utility namespaces.
+   `inline` keeps the var() reference intact, so overriding a token on
+   [data-contrast='high'] re-themes every utility without a rebuild.
+   -------------------------------------------------------------------------- */
+@theme inline {
+  --color-void: var(--sos-bg-void);
+  --color-base: var(--sos-bg-base);
+  --color-raised: var(--sos-bg-raised);
+  --color-app: var(--sos-bg-app);
+  --color-inset: var(--sos-bg-inset);
+
+  --color-accent-100: var(--sos-accent-100);
+  --color-accent-200: var(--sos-accent-200);
+  --color-accent-300: var(--sos-accent-300);
+  --color-accent-400: var(--sos-accent-400);
+  --color-accent-500: var(--sos-accent-500);
+  --color-accent-600: var(--sos-accent-600);
+  --color-accent-700: var(--sos-accent-700);
+  --color-accent-800: var(--sos-accent-800);
+
+  --color-primary: var(--sos-text-primary);
+  --color-secondary: var(--sos-text-secondary);
+  --color-muted: var(--sos-text-muted);
+  --color-disabled: var(--sos-text-disabled);
+  --color-inverse: var(--sos-text-inverse);
+
+  --color-glass: var(--sos-glass-bg);
+  --color-glass-strong: var(--sos-glass-bg-strong);
+  --color-glass-active: var(--sos-glass-bg-active);
+  --color-glass-border: var(--sos-glass-border);
+  --color-glass-border-strong: var(--sos-glass-border-strong);
+  --color-chrome: var(--sos-chrome-bg);
+  --color-chrome-inactive: var(--sos-chrome-bg-inactive);
+  --color-taskbar: var(--sos-taskbar-bg);
+
+  --color-status-stable: var(--sos-status-stable);
+  --color-status-beta: var(--sos-status-beta);
+  --color-status-dev: var(--sos-status-dev);
+  --color-status-planned: var(--sos-status-planned);
+  --color-status-danger: var(--sos-status-danger);
+
+  --radius-xs: var(--sos-radius-xs);
+  --radius-sm: var(--sos-radius-sm);
+  --radius-md: var(--sos-radius-md);
+  --radius-lg: var(--sos-radius-lg);
+  --radius-window: var(--sos-radius-window);
+
+  --shadow-sm: var(--sos-shadow-sm);
+  --shadow-md: var(--sos-shadow-md);
+  --shadow-window: var(--sos-shadow-window);
+  --shadow-window-focused: var(--sos-shadow-window-focused);
+  --shadow-menu: var(--sos-shadow-menu);
+
+  --font-sans: var(--font-sos-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-sos-mono), ui-monospace, 'SFMono-Regular', monospace;
+
+  --ease-out-os: var(--sos-ease-out);
+  --ease-in-out-os: var(--sos-ease-in-out);
+}
+
+/* --------------------------------------------------------------------------
+   Base layer
+   -------------------------------------------------------------------------- */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  html,
+  body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background-color: var(--sos-bg-base);
+    color: var(--sos-text-primary);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* The desktop shell owns the viewport; page scrolling is an application
+     concern, never a document one. Scoped so server-rendered SEO routes
+     (/recruiter, /projects/[slug]) still scroll normally. */
+  body[data-shell='desktop'] {
+    overflow: hidden;
+    overscroll-behavior: none;
+  }
+
+  /* One focus treatment, applied everywhere, never removed. */
+  :focus-visible {
+    outline: var(--sos-focus-ring-width) solid var(--sos-focus-ring);
+    outline-offset: var(--sos-focus-ring-offset);
+    border-radius: var(--sos-radius-xs);
+  }
+
+  /* Chrome elements that draw their own focus indication opt out here
+     rather than nulling `outline` ad hoc across the codebase. */
+  [data-focus-custom]:focus-visible {
+    outline: none;
+  }
+
+  ::selection {
+    background-color: var(--sos-accent-600);
+    color: var(--sos-text-primary);
+  }
+
+  /* Native controls inherit the OS palette rather than the browser's. */
+  :root {
+    color-scheme: dark;
+    accent-color: var(--sos-accent-500);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-weight: 600;
+    line-height: 1.25;
+    margin: 0;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  button {
+    font: inherit;
+    color: inherit;
+  }
+}
+
+/* --------------------------------------------------------------------------
+   Component utilities used across the OS shell
+   -------------------------------------------------------------------------- */
+@layer components {
+  /* Aero's translucency, reinterpreted: a blurred tint plus a single bright
+     top edge. The highlight is an inset shadow rather than a border so it
+     does not affect layout, and it disappears in high-contrast mode because
+     the token resolves to transparent. */
+  .sos-glass {
+    background-color: var(--sos-glass-bg);
+    border: 1px solid var(--sos-glass-border);
+    box-shadow: inset 0 1px 0 0 var(--sos-glass-highlight);
+    backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+  }
+
+  .sos-glass-strong {
+    background-color: var(--sos-glass-bg-strong);
+    border: 1px solid var(--sos-glass-border-strong);
+    box-shadow: inset 0 1px 0 0 var(--sos-glass-highlight);
+    backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+    -webkit-backdrop-filter: blur(var(--sos-glass-blur)) saturate(var(--sos-glass-saturate));
+  }
+
+  /* Recessed wells: terminal, code blocks, inputs. */
+  .sos-inset {
+    background-color: var(--sos-bg-inset);
+    border: 1px solid rgb(0 0 0 / 0.5);
+    box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.5);
+  }
+
+  /* Screen-reader-only, but focusable when used for skip links. */
+  .sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  .focusable\:not-sr-only:focus {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: visible;
+    clip-path: none;
+    white-space: normal;
+  }
+}

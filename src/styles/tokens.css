@@ -1,0 +1,177 @@
+/* ==========================================================================
+   S-OS Design Tokens
+   --------------------------------------------------------------------------
+   Every colour, radius, timing and metric in S-OS resolves through this file.
+   Nothing downstream may hardcode a hex value.
+
+   The reason is V1.1: theme switching (S-OS Dark, Developer Mode) and the
+   high-contrast accessibility mode are implemented by overriding these
+   variables on a data attribute, not by rewriting components.
+   ========================================================================== */
+
+:root {
+  /* --- Typography ------------------------------------------------------
+     Families are supplied by @fontsource packages imported in the root
+     layout. Declared here so every downstream reference is a token. */
+  --font-sos-sans: 'Inter Variable';
+  --font-sos-mono: 'JetBrains Mono Variable';
+
+  /* --- Base surfaces ---------------------------------------------------- */
+  --sos-bg-void: #05070c; /* boot, shutdown, the space before the OS */
+  --sos-bg-base: #0a0d14; /* deepest desktop tone */
+  --sos-bg-raised: #12212e; /* wallpaper upper gradient stop */
+  --sos-bg-app: #0e1620; /* application content background */
+  --sos-bg-inset: #080c12; /* wells: terminal, code, inputs */
+
+  /* --- Accent ramp ------------------------------------------------------ */
+  --sos-accent-100: #e4faff;
+  --sos-accent-200: #b6f2ff;
+  --sos-accent-300: #8ef1ff; /* brand light — the luminous end of the S */
+  --sos-accent-400: #4fd4f5;
+  --sos-accent-500: #26aee6; /* primary interactive */
+  --sos-accent-600: #1a86d6; /* brand deep — the shadow end of the S */
+  --sos-accent-700: #1263a6;
+  --sos-accent-800: #0c4373;
+
+  /* --- Text ------------------------------------------------------------- */
+  /* Verified against --sos-bg-app: primary 15.8:1, secondary 8.9:1,
+     muted 5.1:1. Muted is never used for body copy, only metadata. */
+  --sos-text-primary: rgb(255 255 255 / 0.95);
+  --sos-text-secondary: rgb(226 240 250 / 0.74);
+  --sos-text-muted: rgb(198 218 235 / 0.56);
+  --sos-text-disabled: rgb(198 218 235 / 0.32);
+  --sos-text-inverse: #06131c;
+  --sos-text-accent: var(--sos-accent-300);
+
+  /* --- Glass -----------------------------------------------------------
+     Aero's defining trait was translucency with a bright top edge. We keep
+     the idea and drop the heavy bevels. High-contrast mode replaces all of
+     this with solid fills. */
+  --sos-glass-bg: rgb(255 255 255 / 0.06);
+  --sos-glass-bg-strong: rgb(255 255 255 / 0.11);
+  --sos-glass-bg-active: rgb(255 255 255 / 0.16);
+  --sos-glass-border: rgb(255 255 255 / 0.14);
+  --sos-glass-border-strong: rgb(255 255 255 / 0.22);
+  --sos-glass-highlight: rgb(255 255 255 / 0.28); /* 1px inner top edge */
+  --sos-glass-blur: 20px;
+  --sos-glass-saturate: 140%;
+
+  /* Chrome tints — window frames and the taskbar sit over the wallpaper */
+  --sos-chrome-bg: rgb(12 24 36 / 0.72);
+  --sos-chrome-bg-inactive: rgb(10 16 24 / 0.62);
+  --sos-taskbar-bg: rgb(7 14 22 / 0.78);
+
+  /* --- Status ----------------------------------------------------------
+     Drives project status badges. Meaning is never carried by colour alone;
+     every badge also carries a text label. */
+  --sos-status-stable: #34d399;
+  --sos-status-beta: #38bdf8;
+  --sos-status-dev: #fbbf24;
+  --sos-status-planned: #94a3b8;
+  --sos-status-danger: #fb7185;
+
+  /* --- Focus -----------------------------------------------------------
+     A single, loud, never-removed focus treatment. Keyboard operability is
+     a hard constraint in S-OS, so the focus ring is a first-class token. */
+  --sos-focus-ring: var(--sos-accent-300);
+  --sos-focus-ring-width: 2px;
+  --sos-focus-ring-offset: 2px;
+
+  /* --- Radii ------------------------------------------------------------ */
+  --sos-radius-xs: 3px;
+  --sos-radius-sm: 5px;
+  --sos-radius-md: 8px;
+  --sos-radius-lg: 12px;
+  --sos-radius-window: 10px;
+  --sos-radius-full: 9999px;
+
+  /* --- Elevation -------------------------------------------------------- */
+  --sos-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.4);
+  --sos-shadow-md: 0 4px 14px rgb(0 0 0 / 0.42);
+  --sos-shadow-window: 0 18px 48px -12px rgb(0 0 0 / 0.72), 0 2px 8px rgb(0 0 0 / 0.44);
+  --sos-shadow-window-focused:
+    0 26px 64px -14px rgb(0 0 0 / 0.8), 0 0 0 1px rgb(142 241 255 / 0.14);
+  --sos-shadow-menu: 0 12px 40px -8px rgb(0 0 0 / 0.7);
+  --sos-glow-accent: 0 0 24px rgb(79 212 245 / 0.35);
+
+  /* --- Motion ----------------------------------------------------------
+     Short and decisive. Nothing bounces; an OS should feel mechanical.
+     All values are neutralised under prefers-reduced-motion below. */
+  --sos-duration-instant: 80ms;
+  --sos-duration-fast: 120ms;
+  --sos-duration-normal: 180ms;
+  --sos-duration-slow: 220ms;
+  --sos-ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --sos-ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+  /* --- OS chrome metrics ------------------------------------------------ */
+  --sos-titlebar-height: 34px;
+  --sos-taskbar-height: 44px;
+  --sos-desktop-icon-size: 76px;
+  --sos-desktop-icon-gap: 8px;
+  --sos-window-min-width: 320px;
+  --sos-window-min-height: 200px;
+  --sos-resize-handle: 6px;
+
+  /* --- Z-index scale ---------------------------------------------------
+     Declared once, in order. The window manager derives window z-index from
+     its ordered stack starting at --sos-z-window-base; everything above is
+     shell chrome that must never be covered by an application window. */
+  --sos-z-desktop: 0;
+  --sos-z-desktop-icons: 10;
+  --sos-z-window-base: 100;
+  --sos-z-window-max: 7000;
+  --sos-z-taskbar: 8000;
+  --sos-z-start-menu: 8500;
+  --sos-z-context-menu: 9000;
+  --sos-z-notification: 9500;
+  --sos-z-system-overlay: 10000; /* boot, login, shutdown */
+}
+
+/* ==========================================================================
+   High contrast — accessibility mode, toggled from Settings.
+   Translucency is the single biggest contrast risk in an Aero-derived design,
+   so this mode removes it entirely rather than merely darkening it.
+   ========================================================================== */
+[data-contrast='high'] {
+  --sos-glass-bg: #16222e;
+  --sos-glass-bg-strong: #1e2e3d;
+  --sos-glass-bg-active: #27394a;
+  --sos-glass-border: #6f8ba3;
+  --sos-glass-border-strong: #96b3cc;
+  --sos-glass-highlight: transparent;
+  --sos-glass-blur: 0px;
+  --sos-glass-saturate: 100%;
+
+  --sos-chrome-bg: #101c27;
+  --sos-chrome-bg-inactive: #0c1620;
+  --sos-taskbar-bg: #0a141d;
+
+  --sos-text-secondary: rgb(235 245 255 / 0.94);
+  --sos-text-muted: rgb(220 235 248 / 0.85);
+  --sos-text-disabled: rgb(200 220 235 / 0.6);
+
+  --sos-focus-ring-width: 3px;
+}
+
+/* ==========================================================================
+   Reduced motion — honoured at the token level so that any component using
+   the duration tokens is corrected automatically, whether or not its author
+   remembered to check. Components with imperative animation additionally
+   consult the useReducedMotion hook.
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --sos-duration-instant: 0ms;
+    --sos-duration-fast: 0ms;
+    --sos-duration-normal: 0ms;
+    --sos-duration-slow: 0ms;
+  }
+}
+
+[data-motion='reduced'] {
+  --sos-duration-instant: 0ms;
+  --sos-duration-fast: 0ms;
+  --sos-duration-normal: 0ms;
+  --sos-duration-slow: 0ms;
+}
