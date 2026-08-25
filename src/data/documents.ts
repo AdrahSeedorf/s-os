@@ -40,8 +40,10 @@ export const documents: readonly PortfolioDocument[] = [
     name: 'Diploma in Information and Communications Technology',
     fileName: 'Diploma-ICT.pdf',
     kind: 'certificate',
-    description: 'Western Sydney University International College.',
-    // PENDING: scanned certificate.
+    description: 'Western Sydney University International College. Awarded 6 September 2024.',
+    src: '/documents/wsu-ict-diploma.pdf',
+    sizeBytes: 300_635,
+    updated: '2024-09',
   },
   {
     id: 's-os-specification',

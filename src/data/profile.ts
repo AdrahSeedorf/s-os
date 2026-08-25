@@ -75,7 +75,9 @@ export const education: readonly Education[] = [
     qualification: 'Diploma in Information and Communications Technology',
     location: 'Sydney, NSW',
     startDate: '2023-02',
-    endDate: '2024-01',
+    // The date on the certificate, not an estimate. The entry previously said
+    // January, which predated the award by eight months.
+    endDate: '2024-09',
     expected: false,
     // No highlights recorded. An empty list renders nothing; inventing a
     // bullet to fill the space would be worse than the space.
