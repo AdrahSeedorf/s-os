@@ -19,3 +19,16 @@ export const site = {
 } as const;
 
 export type Site = typeof site;
+
+/**
+ * Whether search engines may index this deployment.
+ *
+ * Defaults to **false**, and that default is the point. While the content is
+ * still placeholder, an indexed page would be what appears when someone
+ * searches Seedorf's name — and search results linger long after the page is
+ * fixed. Opting in is a deliberate act: set NEXT_PUBLIC_ALLOW_INDEXING=true in
+ * the production environment once the content is real.
+ *
+ * Preview deployments should never set it, so branch previews stay invisible.
+ */
+export const allowIndexing = process.env['NEXT_PUBLIC_ALLOW_INDEXING'] === 'true';

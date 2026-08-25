@@ -11,7 +11,7 @@ import type { Metadata, Viewport } from 'next';
  */
 import '@fontsource-variable/inter';
 import '@fontsource-variable/jetbrains-mono';
-import { site } from '@/lib/config/site';
+import { allowIndexing, site } from '@/lib/config/site';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -46,10 +46,11 @@ export const metadata: Metadata = {
     title: `${site.owner} — ${site.title}`,
     description: site.description,
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  // Noindex until explicitly allowed. See allowIndexing for why the default
+  // matters more than the feature.
+  robots: allowIndexing
+    ? { index: true, follow: true }
+    : { index: false, follow: false, nocache: true },
 };
 
 export const viewport: Viewport = {
