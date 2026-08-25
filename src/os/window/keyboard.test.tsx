@@ -59,7 +59,9 @@ describe('window focus placement', () => {
 
     const { rerender } = render(<OSWindow instance={instance} isFocused />);
 
-    const inputs = screen.getAllByRole('textbox');
+    // Applications are code-split, so the body arrives after a tick — find*
+    // rather than get*, or this asserts against the Suspense fallback.
+    const inputs = await screen.findAllByRole('textbox');
     const first = inputs[0];
     expect(first).toBeDefined();
     if (!first) return;
@@ -108,7 +110,7 @@ describe('window keyboard control', () => {
     render(<WindowManager />);
     const before = store().windows[id]?.bounds.x;
 
-    const input = screen.getAllByRole('textbox')[0];
+    const input = (await screen.findAllByRole('textbox'))[0];
     expect(input).toBeDefined();
     if (!input) return;
 
@@ -136,7 +138,7 @@ describe('window keyboard control', () => {
 
     render(<WindowManager />);
 
-    const input = screen.getAllByRole('textbox')[0];
+    const input = (await screen.findAllByRole('textbox'))[0];
     if (!input) return;
 
     await user.click(input);

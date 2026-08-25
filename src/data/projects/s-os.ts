@@ -20,18 +20,18 @@ export const sOs: Project = {
   desktopShortcut: true,
 
   tagline:
-    'A browser-based desktop operating system that serves as my portfolio — and is itself the largest project in it.',
+    'A browser-based desktop operating system that serves as my portfolio â and is itself the largest project in it.',
 
   overview:
-    'S-OS is a fictional desktop operating system built with Next.js and TypeScript. Visitors boot it, log in, and explore my work as installed programs, documents and system information. Underneath the metaphor are real primitives: a window manager with independent lifecycle and focus handling, a virtual filesystem traversed by both the file explorer and the terminal, a command interpreter, and a search index — all reading from a single typed content model.',
+    'S-OS is a fictional desktop operating system built with Next.js and TypeScript. Visitors boot it, log in, and explore my work as installed programs, documents and system information. Underneath the metaphor are real primitives: a window manager with independent lifecycle and focus handling, a virtual filesystem traversed by both the file explorer and the terminal, a command interpreter, and a search index â all reading from a single typed content model.',
 
   problem:
     'A conventional portfolio asks a reviewer to take claims about engineering ability on trust: a grid of project cards demonstrates that I can style a page, not that I can design a system. I wanted the portfolio itself to be the evidence, without making the career information any harder to find.',
 
   solution:
-    'I built the portfolio as an operating system, then added a deliberate escape hatch. Recruiter Mode, reachable from the login screen, the desktop and the Start menu, presents the professional summary in one clean window; every project also exists as a server-rendered, indexable URL that can be shared directly. The creative layer never gates the professional layer — a reviewer who wants the resume in ten seconds gets it, and a reviewer who wants to explore can.',
+    'I built the portfolio as an operating system, then added a deliberate escape hatch. Recruiter Mode, reachable from the login screen, the desktop and the Start menu, presents the professional summary in one clean window; every project also exists as a server-rendered, indexable URL that can be shared directly. The creative layer never gates the professional layer â a reviewer who wants the resume in ten seconds gets it, and a reviewer who wants to explore can.',
 
-  role: 'Sole designer and developer — product definition, visual design system, architecture, implementation, accessibility and deployment.',
+  role: 'Sole designer and developer â product definition, visual design system, architecture, implementation, accessibility and deployment.',
 
   technologies: [
     'typescript',
@@ -59,12 +59,12 @@ export const sOs: Project = {
   ],
 
   architecture:
-    'The system separates into four layers: the OS shell (boot, desktop, window manager, taskbar), applications, a content layer, and shared UI primitives. Applications are registered in an application registry and mounted lazily on first launch, so a visitor who never opens the terminal never downloads it. Crucially, applications know nothing about being inside a window — which is exactly why the same components render full-screen in the mobile shell — and they never import content data directly, reaching it through a single accessor module instead. An ESLint rule enforces that boundary, because it is the seam that will let a database replace the flat files later without touching a single application.',
+    'The system separates into four layers: the OS shell (boot, desktop, window manager, taskbar), applications, a content layer, and shared UI primitives. Applications are registered in an application registry and code-split one chunk each, mounted on first launch behind a Suspense boundary per window, so a visitor who never opens the terminal never downloads it — and a test asserts every entry is lazy, because a single static import would silently undo it. Crucially, applications know nothing about being inside a window â which is exactly why the same components render full-screen in the mobile shell â and they never import content data directly, reaching it through a single accessor module instead. An ESLint rule enforces that boundary, because it is the seam that will let a database replace the flat files later without touching a single application.',
 
   challenges: [
     {
       challenge:
-        'Dragging a window updates its position up to sixty times a second. Holding that in React Context would re-render every consumer — every other window, the taskbar and the desktop — on every frame.',
+        'Dragging a window updates its position up to sixty times a second. Holding that in React Context would re-render every consumer â every other window, the taskbar and the desktop â on every frame.',
       solution:
         'Window state lives in a Zustand store, subscribed to with selectors, so a drag re-renders only the window being dragged. Position is applied as a transform during the gesture and committed to the store on release, which avoids layout thrash while keeping state clean.',
     },
@@ -72,7 +72,7 @@ export const sOs: Project = {
       challenge:
         'A JavaScript desktop shell is close to invisible to search engines, and produces an empty preview when the link is pasted into LinkedIn or a job application.',
       solution:
-        'Recruiter Mode and every project also exist as server-rendered routes with real metadata and Open Graph images. The desktop reads the same content client-side. Two presentations, one source of truth — which also gives every window a shareable URL.',
+        'Recruiter Mode and every project also exist as server-rendered routes with real metadata and Open Graph images. The desktop reads the same content client-side. Two presentations, one source of truth â which also gives every window a shareable URL.',
     },
     {
       challenge:
@@ -84,7 +84,7 @@ export const sOs: Project = {
       challenge:
         'Several of my projects are still in progress, and an operating system full of programs that open into nothing would read as emptier than a plain page.',
       solution:
-        'Project status is a first-class field — Stable, Beta, In Development, Planned — and unfinished entries carry a real build log of what is done and what is next. Only finished work earns a desktop shortcut. Being visibly mid-build is more credible than pretending otherwise.',
+        'Project status is a first-class field â Stable, Beta, In Development, Planned â and unfinished entries carry a real build log of what is done and what is next. Only finished work earns a desktop shortcut. Being visibly mid-build is more credible than pretending otherwise.',
     },
   ],
 
@@ -96,26 +96,26 @@ export const sOs: Project = {
 
   buildLog: {
     done: [
-      'Milestone 0 — toolchain, design token system, accessible UI primitives, test setup',
-      'Milestone 1 — content model, accessor layer and virtual filesystem',
-      'Milestone 2 — brand system, wallpaper and the program icon set',
-      'Milestone 3 — boot sequence, login and the session state machine',
-      'Milestone 4 — window manager with drag, resize and full keyboard control',
-      'Milestone 5 — desktop, icons, taskbar and system tray',
-      'Milestone 6 — search index, Start menu and All Programs',
-      'Milestone 7 — Recruiter Mode, About, Skills, Resume and System Information',
-      'Milestone 8 — File Explorer, the Project application and the Demo Viewer',
-      'Milestone 9 — terminal parser, command table and the Terminal application',
-      'Milestones 10 and 11 — notifications, and the Contact form with its API route',
-      'Milestone 12 — a separate mobile shell rather than a shrunken desktop',
-      'Milestone 13 — server-rendered routes, structured data, Open Graph images and sitemap',
-      'Milestone 14 — the dev-only Project Installer and its code generator',
+      'Milestone 0 â toolchain, design token system, accessible UI primitives, test setup',
+      'Milestone 1 â content model, accessor layer and virtual filesystem',
+      'Milestone 2 â brand system, wallpaper and the program icon set',
+      'Milestone 3 â boot sequence, login and the session state machine',
+      'Milestone 4 â window manager with drag, resize and full keyboard control',
+      'Milestone 5 â desktop, icons, taskbar and system tray',
+      'Milestone 6 â search index, Start menu and All Programs',
+      'Milestone 7 â Recruiter Mode, About, Skills, Resume and System Information',
+      'Milestone 8 â File Explorer, the Project application and the Demo Viewer',
+      'Milestone 9 â terminal parser, command table and the Terminal application',
+      'Milestones 10 and 11 â notifications, and the Contact form with its API route',
+      'Milestone 12 â a separate mobile shell rather than a shrunken desktop',
+      'Milestone 13 â server-rendered routes, structured data, Open Graph images and sitemap',
+      'Milestone 14 â the dev-only Project Installer and its code generator',
       '357 tests across window management, the terminal, content integrity and every application',
     ],
     next: [
-      'Milestone 15 — accessibility and performance audit',
-      'Milestone 16 — sound design and final polish',
-      'Milestone 17 — deployment',
+      'Milestone 15 â accessibility and performance audit',
+      'Milestone 16 â sound design and final polish',
+      'Milestone 17 â deployment',
       'Capture screenshots and a demo recording for the project window',
     ],
     updated: '2026-08-25',

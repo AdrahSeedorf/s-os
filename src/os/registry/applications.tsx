@@ -1,19 +1,34 @@
-import type { ComponentType } from 'react';
+import { lazy, type ComponentType } from 'react';
 import type { Size, WindowConstraints } from '@/types/window';
 import { DEFAULT_CONSTRAINTS } from '@/types/window';
 import { PlaceholderApp } from '@/apps/PlaceholderApp';
-import { ProjectApp } from '@/apps/ProjectApp';
-import { RecruiterApp } from '@/apps/RecruiterApp';
-import { AboutApp } from '@/apps/AboutApp';
-import { SkillsApp } from '@/apps/SkillsApp';
-import { ResumeApp } from '@/apps/ResumeApp';
-import { SystemInfoApp } from '@/apps/SystemInfoApp';
-import { ProjectsApp } from '@/apps/ProjectsApp';
-import { ExplorerApp } from '@/apps/ExplorerApp';
-import { DocumentsApp } from '@/apps/DocumentsApp';
-import { DemoViewerApp } from '@/apps/DemoViewerApp';
-import { TerminalApp } from '@/apps/TerminalApp';
-import { ContactApp } from '@/apps/ContactApp';
+
+/**
+ * Applications are code-split, one chunk each.
+ *
+ * The metadata below — name, icon, description, default size — stays in the
+ * main bundle, because the Start menu, search, Explorer and the terminal all
+ * need to *describe* every program without running any of them. Only the
+ * component is deferred, and only until the moment a window opens.
+ *
+ * This was not true until the M15 audit: every application was imported
+ * eagerly, so a visitor who never opened the terminal downloaded it anyway,
+ * along with the contact form, the file explorer and everything else. The
+ * S-OS project page claimed otherwise, which made it a documentation bug as
+ * well as a performance one.
+ */
+const RecruiterApp = lazy(async () => ({ default: (await import('@/apps/RecruiterApp')).RecruiterApp }));
+const ProjectsApp = lazy(async () => ({ default: (await import('@/apps/ProjectsApp')).ProjectsApp }));
+const ProjectApp = lazy(async () => ({ default: (await import('@/apps/ProjectApp')).ProjectApp }));
+const AboutApp = lazy(async () => ({ default: (await import('@/apps/AboutApp')).AboutApp }));
+const SkillsApp = lazy(async () => ({ default: (await import('@/apps/SkillsApp')).SkillsApp }));
+const ResumeApp = lazy(async () => ({ default: (await import('@/apps/ResumeApp')).ResumeApp }));
+const ExplorerApp = lazy(async () => ({ default: (await import('@/apps/ExplorerApp')).ExplorerApp }));
+const DocumentsApp = lazy(async () => ({ default: (await import('@/apps/DocumentsApp')).DocumentsApp }));
+const TerminalApp = lazy(async () => ({ default: (await import('@/apps/TerminalApp')).TerminalApp }));
+const SystemInfoApp = lazy(async () => ({ default: (await import('@/apps/SystemInfoApp')).SystemInfoApp }));
+const ContactApp = lazy(async () => ({ default: (await import('@/apps/ContactApp')).ContactApp }));
+const DemoViewerApp = lazy(async () => ({ default: (await import('@/apps/DemoViewerApp')).DemoViewerApp }));
 
 /**
  * The application registry.

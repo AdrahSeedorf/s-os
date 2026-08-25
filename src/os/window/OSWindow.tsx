@@ -1,6 +1,12 @@
 'use client';
 
-import { useEffect, useId, useRef, type KeyboardEvent as ReactKeyboardEvent } from 'react';
+import {
+  Suspense,
+  useEffect,
+  useId,
+  useRef,
+  type KeyboardEvent as ReactKeyboardEvent,
+} from 'react';
 import { Maximize2, Minus, Square, X } from 'lucide-react';
 import { ProgramIcon } from '@/components/icons';
 import { IconButton } from '@/components/ui';
@@ -220,7 +226,12 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
 
       <div className="bg-app min-h-0 flex-1 overflow-auto">
         {Body ? (
-          <Body windowId={instance.id} params={instance.params} />
+          // Each application is its own chunk, so opening a window may need a
+          // network round trip. The boundary is per window rather than global:
+          // one program loading must never blank a program already open.
+          <Suspense fallback={<AppLoading title={instance.title} />}>
+            <Body windowId={instance.id} params={instance.params} />
+          </Suspense>
         ) : (
           <p className="text-muted p-6 text-[13px]">This program failed to start.</p>
         )}
@@ -239,5 +250,20 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
           ))
         : null}
     </section>
+  );
+}
+
+/**
+ * Shown while an application's chunk is in flight.
+ *
+ * A live region rather than a silent spinner: a screen-reader user gets told
+ * the program is starting, instead of landing in an empty dialog and being
+ * left to guess whether anything happened.
+ */
+function AppLoading({ title }: { title: string }) {
+  return (
+    <div role="status" className="flex h-full items-center justify-center p-8">
+      <p className="text-muted text-[12.5px]">Starting {title}…</p>
+    </div>
   );
 }

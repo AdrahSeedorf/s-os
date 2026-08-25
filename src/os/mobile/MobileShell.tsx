@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { Suspense, useEffect, useState } from 'react';
 import { ChevronLeft, Layers, X } from 'lucide-react';
 import { Avatar, SosWordmark, Wallpaper } from '@/components/brand';
 import { ProgramIcon } from '@/components/icons';
@@ -101,7 +101,20 @@ function ActiveApp({ id }: { id: string }) {
   if (!app) return null;
 
   const Body = app.component;
-  return <Body windowId={instance.id} params={instance.params} />;
+
+  // Applications are code-split, so the mobile shell needs the same boundary
+  // the desktop windows have.
+  return (
+    <Suspense
+      fallback={
+        <div role="status" className="flex h-full items-center justify-center p-8">
+          <p className="text-muted text-[12.5px]">Starting {app.title}…</p>
+        </div>
+      }
+    >
+      <Body windowId={instance.id} params={instance.params} />
+    </Suspense>
+  );
 }
 
 function MobileAppView({

@@ -1,16 +1,17 @@
 import type { Metadata, Viewport } from 'next';
+import ReactDOM from 'react-dom';
 /**
- * Two families only, shipped as npm packages rather than fetched from Google
- * Fonts at build time. Three reasons:
+ * Two families only, self-hosted rather than fetched from Google Fonts.
+ * Three reasons:
  *   1. the build has no external dependency and works offline,
- *   2. the exact font files are pinned in the lockfile,
+ *   2. the exact font files are pinned by the lockfile and copied by
+ *      `npm run fonts:sync`,
  *   3. no visitor request ever reaches a Google server, which keeps the
  *      privacy story simple.
  * Inter carries the UI; JetBrains Mono carries the terminal and anywhere a
  * value should read as machine output. Variable weights, so one file each.
+ * The @font-face rules live in globals.css; the preloads are below.
  */
-import '@fontsource-variable/inter';
-import '@fontsource-variable/jetbrains-mono';
 import { allowIndexing, site } from '@/lib/config/site';
 import './globals.css';
 
@@ -62,7 +63,31 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
+/**
+ * Preload the two font files.
+ *
+ * `ReactDOM.preload` rather than a `<link>` in the tree: rendering the element
+ * made React hoist it into <head> *and* serialise it where it was written, so
+ * every preload appeared twice. The imperative form emits exactly one.
+ *
+ * Worth doing at all because a browser cannot discover a @font-face until it
+ * has parsed the stylesheet that declares it — a round trip charged against
+ * the first thing a visitor sees. crossOrigin is required even for same-origin
+ * font files; without it the preload is ignored and fetched again.
+ */
+function preloadFonts(): void {
+  for (const file of ['inter-latin-variable', 'jetbrains-mono-latin-variable']) {
+    ReactDOM.preload(`/fonts/${file}.woff2`, {
+      as: 'font',
+      type: 'font/woff2',
+      crossOrigin: 'anonymous',
+    });
+  }
+}
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
+  preloadFonts();
+
   return (
     <html lang="en-AU">
       <body>{children}</body>
