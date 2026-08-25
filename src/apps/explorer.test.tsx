@@ -162,12 +162,15 @@ describe('Project application', () => {
   });
 
   it('hides sections a project has no content for', () => {
-    // The capstone has no architecture write-up and no screenshots yet, so it
-    // should not offer tabs that open onto nothing.
+    // The capstone is delivered but unpublishable: it has an engineering
+    // write-up, but no screenshots and nothing runnable. A tab that opens
+    // onto nothing is worse than an absent tab — it reads as broken rather
+    // than withheld. Overview is the control; every project has one.
     render(<ProjectApp windowId="test" params={{ projectId: 'capstone-management-system' }} />);
 
+    expect(screen.getByRole('tab', { name: 'Overview' })).toBeInTheDocument();
     expect(screen.queryByRole('tab', { name: 'Screenshots' })).not.toBeInTheDocument();
-    expect(screen.getByRole('tab', { name: 'Build log' })).toBeInTheDocument();
+    expect(screen.queryByRole('tab', { name: 'Demo' })).not.toBeInTheDocument();
   });
 
   it('says the source is withheld when publication is restricted', () => {
