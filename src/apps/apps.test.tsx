@@ -7,6 +7,31 @@ import { ResumeApp } from './ResumeApp';
 import { SystemInfoApp } from './SystemInfoApp';
 import { getFeaturedProjects, getProfile, getProjects, getSkills } from '@/lib/content';
 import { getCapabilities, getSystemInfo } from '@/lib/content/systemInfo';
+import { getSnapshot, resetContentSnapshot, setContentSnapshot } from '@/lib/content';
+
+/**
+ * Runs a test against a snapshot whose resume has no file behind it.
+ *
+ * Injected through the content seam rather than asserting today's data: now
+ * that a real resume exists, the unavailable path would otherwise stop being
+ * covered — and it is the path that protects a recruiter from a dead link.
+ */
+function withoutResumeFile(run: () => void): void {
+  const snapshot = getSnapshot();
+  const documents = snapshot.documents.map((document) => {
+    if (document.kind !== 'resume') return document;
+    const { src: _src, ...rest } = document;
+    return rest;
+  });
+
+  setContentSnapshot({ ...snapshot, documents });
+
+  try {
+    run();
+  } finally {
+    resetContentSnapshot();
+  }
+}
 
 /**
  * These assert the promises S-OS makes about its own content, not markup
@@ -113,18 +138,37 @@ describe('Skills', () => {
 });
 
 describe('Resume', () => {
-  it('states that the resume is unavailable rather than serving a broken file', () => {
+  it('renders the document when a file exists', () => {
+    const { container } = render(<ResumeApp />);
+
+    // <object> rather than <iframe>: a browser that cannot display a PDF
+    // inline renders the fallback instead of an empty grey rectangle.
+    expect(container.querySelector('object[type="application/pdf"]')).not.toBeNull();
+    expect(screen.getByRole('link', { name: /download/i })).toBeInTheDocument();
+  });
+
+  it('states when the document was last updated', () => {
+    // Shown rather than hidden. A reader who can see the date can judge it;
+    // a document with no date invites them to assume it is current.
     render(<ResumeApp />);
-    expect(screen.getByText(/being finalised/i)).toBeInTheDocument();
+    expect(screen.getByText(/updated/i)).toBeInTheDocument();
+  });
+
+  it('states that the resume is unavailable rather than serving a broken file', () => {
+    withoutResumeFile(() => {
+      render(<ResumeApp />);
+      expect(screen.getByText(/being finalised/i)).toBeInTheDocument();
+    });
   });
 
   it('offers a working alternative when the file is missing', () => {
-    render(<ResumeApp />);
-
-    expect(
-      screen.getByRole('button', { name: /request the current version/i }),
-    ).toBeInTheDocument();
-    expect(screen.getByRole('button', { name: /recruiter mode/i })).toBeInTheDocument();
+    withoutResumeFile(() => {
+      render(<ResumeApp />);
+      expect(
+        screen.getByRole('button', { name: /request the current version/i }),
+      ).toBeInTheDocument();
+      expect(screen.getByRole('button', { name: /recruiter mode/i })).toBeInTheDocument();
+    });
   });
 });
 

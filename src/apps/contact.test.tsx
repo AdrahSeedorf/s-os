@@ -3,6 +3,7 @@ import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ContactApp } from './ContactApp';
 import { resetNotifications, useNotificationStore } from '@/stores/notificationStore';
+import { getSnapshot, resetContentSnapshot, setContentSnapshot } from '@/lib/content';
 
 const fill = async (user: ReturnType<typeof userEvent.setup>) => {
   await user.type(screen.getByLabelText(/^Name/), 'Jane Recruiter');
@@ -139,8 +140,30 @@ describe('Contact form', () => {
     expect(screen.queryByRole('textbox', { name: /company/i })).not.toBeInTheDocument();
   });
 
-  it('offers a way to reach him even with no profile links registered', () => {
+  it('shows the direct links when they are registered', () => {
     render(<ContactApp />);
-    expect(screen.getByText(/Profile links are being added/)).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /github/i })).toBeInTheDocument();
+    expect(screen.getByRole('link', { name: /linkedin/i })).toBeInTheDocument();
+  });
+
+  it('still offers a route when no profile links are registered', () => {
+    // Injects a link-free profile through the content seam rather than
+    // asserting today's data. The empty state has to keep working — a future
+    // edit that removes a link should not silently produce a dead section.
+    const snapshot = getSnapshot();
+    const {
+      email: _email,
+      github: _github,
+      linkedin: _linkedin,
+      ...profile
+    } = snapshot.profile;
+    setContentSnapshot({ ...snapshot, profile });
+
+    try {
+      render(<ContactApp />);
+      expect(screen.getByText(/Profile links are being added/)).toBeInTheDocument();
+    } finally {
+      resetContentSnapshot();
+    }
   });
 });

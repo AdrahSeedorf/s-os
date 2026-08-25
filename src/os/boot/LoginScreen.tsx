@@ -10,7 +10,7 @@ import {
   VolumeX,
   Wifi,
 } from 'lucide-react';
-import { SosWordmark, Wallpaper } from '@/components/brand';
+import { Avatar, SosWordmark, Wallpaper } from '@/components/brand';
 import { ProgramIcon } from '@/components/icons';
 import { Badge, Button, GlassPanel, IconButton, TextField } from '@/components/ui';
 import { useClock } from '@/lib/hooks/useClock';
@@ -110,10 +110,10 @@ export function LoginScreen() {
         <main className="flex flex-1 items-center justify-center px-5 py-8">
           <div className="flex w-full max-w-lg flex-col gap-4">
             <GlassPanel tone="strong" className="flex flex-col items-center gap-5 p-7">
-              <div className="border-accent-400/40 bg-accent-800/40 flex size-20 items-center justify-center rounded-full border">
-                {/* Placeholder until a real avatar exists. A generic mark is
-                    better than a broken image or an empty circle. */}
-                <ProgramIcon icon="about" size={40} />
+              {/* The first thing anyone sees. Decorative, because the name
+                  is announced directly beneath it. */}
+              <div className="border-accent-400/40 size-20 overflow-hidden rounded-full border">
+                <Avatar size={80} />
               </div>
 
               <div className="flex flex-col items-center gap-1.5 text-center">

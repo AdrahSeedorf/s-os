@@ -9,6 +9,7 @@ import {
 } from 'react';
 import { ChevronRight, LogOut, Power, RotateCcw, Search } from 'lucide-react';
 import { ProgramIcon } from '@/components/icons';
+import { Avatar } from '@/components/brand';
 import { cn } from '@/lib/utils/cn';
 import { getProfile } from '@/lib/content';
 import { SEARCH_KIND_LABEL, searchGrouped } from '@/lib/search';
@@ -93,8 +94,8 @@ export function StartMenu({ onDismiss }: { onDismiss: () => void }) {
       aria-label="Start menu"
     >
       <header className="border-glass-border flex items-center gap-3 border-b px-4 py-3">
-        <div className="border-accent-400/40 bg-accent-800/50 flex size-10 items-center justify-center rounded-full border">
-          <ProgramIcon icon="about" size={22} />
+        <div className="border-accent-400/40 size-10 shrink-0 overflow-hidden rounded-full border">
+          <Avatar size={40} />
         </div>
         <div className="min-w-0">
           <p className="truncate text-[13px] font-semibold">{profile.displayName}</p>

@@ -32,7 +32,16 @@ export const profile: Profile = {
     'The governance and compliance side of software',
   ],
 
-  // PENDING: contact and profile links. See docs/S-OS-SPEC.md §1.4.
+  email: 'seedorfobengmireku7@gmail.com',
+  github: 'https://github.com/AdrahSeedorf',
+  linkedin: 'https://www.linkedin.com/in/seedorf-obeng-mireku-b55379286',
+
+  avatar: {
+    src: '/brand/avatar.jpg',
+    alt: 'Seedorf Obeng-Mireku',
+    width: 400,
+    height: 400,
+  },
 };
 
 /**

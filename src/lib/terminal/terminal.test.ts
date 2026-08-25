@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { buildFileSystem } from '@/lib/content/filesystem';
+import { getSnapshot, resetContentSnapshot, setContentSnapshot } from '@/lib/content';
 import { commandNames, commands, findCommand } from './commands';
 import { parse, tokenise } from './parser';
 import { commonPrefix, complete, execute } from './session';
@@ -122,14 +123,48 @@ describe('content commands', () => {
     expect(textOf('experience')).toContain('No industry experience yet');
   });
 
-  it('resume explains itself while there is no file', () => {
-    expect(textOf('resume')).toContain('being finalised');
+  it('resume opens the viewer when a file exists', () => {
+    expect(execute('resume', root).effects?.[0]).toEqual({
+      type: 'open-app',
+      appId: 'resume',
+    });
   });
 
-  it('github reports the missing link rather than opening nothing', () => {
+  it('resume explains itself when there is no file', () => {
+    const snapshot = getSnapshot();
+    const documents = snapshot.documents.map((document) => {
+      if (document.kind !== 'resume') return document;
+      const { src: _src, ...rest } = document;
+      return rest;
+    });
+    setContentSnapshot({ ...snapshot, documents });
+
+    try {
+      expect(textOf('resume')).toContain('being finalised');
+    } finally {
+      resetContentSnapshot();
+    }
+  });
+
+  it('github opens the registered profile', () => {
     const result = execute('github', root);
-    expect(result.lines[0]?.kind).toBe('error');
-    expect(result.effects ?? []).toEqual([]);
+    expect(result.effects?.[0]).toMatchObject({ type: 'open-url' });
+  });
+
+  it('github reports a missing link rather than opening nothing', () => {
+    // Injected through the content seam rather than asserting today's data, so
+    // the empty state stays covered even now that a real link exists.
+    const snapshot = getSnapshot();
+    const { github: _github, ...profile } = snapshot.profile;
+    setContentSnapshot({ ...snapshot, profile });
+
+    try {
+      const result = execute('github', root);
+      expect(result.lines[0]?.kind).toBe('error');
+      expect(result.effects ?? []).toEqual([]);
+    } finally {
+      resetContentSnapshot();
+    }
   });
 });
 

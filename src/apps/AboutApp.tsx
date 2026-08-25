@@ -1,7 +1,7 @@
 'use client';
 
 import { Badge, GlassPanel } from '@/components/ui';
-import { ProgramIcon } from '@/components/icons';
+import { Avatar } from '@/components/brand';
 import { getEducation, getProfile, getSkillsGroupedByCategory } from '@/lib/content';
 import { AVAILABILITY_LABEL } from '@/types/content';
 import { AppScreen, AppSection, PropertyList } from './shared/AppLayout';
@@ -33,8 +33,8 @@ export function AboutApp() {
   return (
     <AppScreen>
       <header className="flex items-center gap-4">
-        <div className="border-accent-400/40 bg-accent-800/45 flex size-16 shrink-0 items-center justify-center rounded-full border">
-          <ProgramIcon icon="about" size={34} />
+        <div className="border-accent-400/40 size-16 shrink-0 overflow-hidden rounded-full border">
+          <Avatar size={64} />
         </div>
         <div className="flex flex-col gap-1">
           <h2 className="text-[18px] font-semibold">{profile.name}</h2>

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { ChevronLeft, Layers, X } from 'lucide-react';
-import { SosWordmark, Wallpaper } from '@/components/brand';
+import { Avatar, SosWordmark, Wallpaper } from '@/components/brand';
 import { ProgramIcon } from '@/components/icons';
 import { Badge, IconButton } from '@/components/ui';
 import { cn } from '@/lib/utils/cn';
@@ -176,9 +176,14 @@ function MobileHome({
     <div className="relative flex h-full flex-col">
       <header className="flex shrink-0 flex-col gap-3 px-5 pt-6 pb-4">
         <SosWordmark size="sm" />
-        <div>
-          <h1 className="text-[19px] font-semibold">{profile.name}</h1>
-          <p className="text-accent-200 text-[13px]">{profile.title}</p>
+        <div className="flex items-center gap-3.5">
+          <div className="border-accent-400/40 size-14 shrink-0 overflow-hidden rounded-full border">
+            <Avatar size={56} />
+          </div>
+          <div className="min-w-0">
+            <h1 className="text-[19px] font-semibold">{profile.name}</h1>
+            <p className="text-accent-200 text-[13px]">{profile.title}</p>
+          </div>
         </div>
         <div className="flex flex-wrap gap-2">
           <Badge tone="accent" dot>

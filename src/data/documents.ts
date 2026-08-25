@@ -14,7 +14,11 @@ export const documents: readonly PortfolioDocument[] = [
     fileName: 'Resume.pdf',
     kind: 'resume',
     description: 'Curriculum vitae — software engineering internship and graduate roles.',
-    // PENDING: resume is being refined. See docs/S-OS-SPEC.md §1.4.
+    src: '/documents/seedorf-obeng-mireku-resume.pdf',
+    sizeBytes: 192_105,
+    // The honest date. This version predates every project in the portfolio,
+    // including S-OS itself — see the note in the Resume application.
+    updated: '2024-06',
   },
   {
     id: 'diploma-ict',

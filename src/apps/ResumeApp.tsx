@@ -3,6 +3,7 @@
 import { Download, Mail } from 'lucide-react';
 import { Button, GlassPanel } from '@/components/ui';
 import { getResume, isDocumentAvailable } from '@/lib/content';
+import { formatMonth } from '@/lib/utils/dates';
 import { useWindowStore } from '@/stores/windowStore';
 import { AppScreen, EmptyState, ExternalAction } from './shared/AppLayout';
 
@@ -68,7 +69,13 @@ export function ResumeApp() {
       <header className="border-glass-border flex flex-wrap items-center justify-between gap-3 border-b px-4 py-2.5">
         <div className="flex flex-col">
           <h2 className="text-[13px] font-semibold">{resume.name}</h2>
-          <p className="text-muted font-mono text-[11px]">{resume.fileName}</p>
+          <p className="text-muted font-mono text-[11px]">
+            {/* Stated plainly. A reader who can see the date can judge it for
+                themselves; a document with a hidden date invites the reader to
+                assume it is current. */}
+            {resume.fileName}
+            {resume.updated ? ` · updated ${formatMonth(resume.updated)}` : ''}
+          </p>
         </div>
 
         <div className="flex items-center gap-2">
