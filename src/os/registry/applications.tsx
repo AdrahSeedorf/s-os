@@ -8,6 +8,10 @@ import { AboutApp } from '@/apps/AboutApp';
 import { SkillsApp } from '@/apps/SkillsApp';
 import { ResumeApp } from '@/apps/ResumeApp';
 import { SystemInfoApp } from '@/apps/SystemInfoApp';
+import { ProjectsApp } from '@/apps/ProjectsApp';
+import { ExplorerApp } from '@/apps/ExplorerApp';
+import { DocumentsApp } from '@/apps/DocumentsApp';
+import { DemoViewerApp } from '@/apps/DemoViewerApp';
 
 /**
  * The application registry.
@@ -86,7 +90,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Projects',
     icon: 'projects',
     description: 'Browse installed programs by category.',
-    component: placeholder('Milestone 8'),
+    component: ProjectsApp,
     defaultSize: { width: 840, height: 560 },
     desktopShortcut: true,
     pinned: true,
@@ -137,7 +141,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'File Explorer',
     icon: 'explorer',
     description: 'Browse the S-OS drives.',
-    component: placeholder('Milestone 8'),
+    component: ExplorerApp,
     defaultSize: { width: 860, height: 560 },
     pinned: true,
     allowMultiple: true,
@@ -148,7 +152,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Documents',
     icon: 'documents',
     description: 'Resume, certificates and written documentation.',
-    component: placeholder('Milestone 8'),
+    component: DocumentsApp,
     defaultSize: { width: 780, height: 540 },
   },
   {
@@ -182,6 +186,17 @@ export const applications: readonly AppDefinition[] = [
     defaultSize: { width: 560, height: 560 },
     desktopShortcut: true,
     constraints: { maximisable: false },
+  },
+  {
+    id: 'demo-viewer',
+    name: 'Demo Viewer',
+    title: 'Demo Viewer',
+    icon: 'demo-viewer',
+    description: 'Runs a project demo inside an S-OS window.',
+    component: DemoViewerApp,
+    defaultSize: { width: 900, height: 620 },
+    allowMultiple: true,
+    hidden: true,
   },
   {
     id: 'settings',
