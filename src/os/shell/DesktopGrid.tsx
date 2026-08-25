@@ -64,6 +64,7 @@ export function DesktopGrid() {
     <ul
       ref={containerRef}
       onKeyDown={onKeyDown}
+      data-desktop-grid
       aria-label="Desktop"
       className="absolute inset-0 grid w-fit auto-cols-max grid-flow-col content-start gap-1 p-3"
       style={{ gridTemplateRows: 'repeat(auto-fill, minmax(92px, max-content))' }}

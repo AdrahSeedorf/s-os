@@ -42,8 +42,8 @@ export function WindowManager() {
    *
    * Alt+Tab and Ctrl+Tab both belong to the browser and cannot be intercepted
    * reliably, so S-OS uses the key Windows itself assigns to "cycle panes".
-   * It is listed in the keyboard shortcuts panel, because an undiscoverable
-   * shortcut may as well not exist.
+   * It is listed in System Information, because an undiscoverable shortcut may
+   * as well not exist.
    */
   useEffect(() => {
     const onKeyDown = (event: KeyboardEvent) => {
@@ -55,6 +55,29 @@ export function WindowManager() {
     window.addEventListener('keydown', onKeyDown);
     return () => window.removeEventListener('keydown', onKeyDown);
   }, [cycleFocus]);
+
+  /**
+   * When the last window closes, put focus somewhere deliberate.
+   *
+   * Closing a window destroys the element holding focus. The browser's
+   * fallback is `document.body`, which means the next Tab restarts from the
+   * top of the page — a keyboard user who closed one window is sent back to
+   * the skip link. While other windows remain the store promotes one and
+   * OSWindow picks it up; this covers only the empty case.
+   */
+  const hasWindows = creationOrder.some((id) => windows[id]?.state !== 'minimised');
+  useEffect(() => {
+    if (hasWindows) return;
+    if (document.activeElement && document.activeElement !== document.body) return;
+
+    // The grid uses a roving tabindex, so the icon carrying tabindex="0" is
+    // exactly where Tab would have gone anyway. Landing there rather than on
+    // the container means the arrow keys work immediately.
+    const target = document.querySelector<HTMLElement>(
+      '[data-desktop-grid] [data-item-key][tabindex="0"]',
+    );
+    target?.focus({ preventScroll: true });
+  }, [hasWindows]);
 
   return (
     <>

@@ -69,11 +69,27 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
     disabled: isMaximised,
   });
 
-  // Move focus into a newly opened window, so the keyboard follows the visual
-  // change instead of being left behind on whatever launched it.
+  /**
+   * Keep real focus with the focused window.
+   *
+   * This runs on every change of `isFocused`, not just on mount. F6 cycling,
+   * a taskbar click and the promotion that happens when the window above is
+   * closed all move `focusedId` in the store — and without this the window
+   * would *look* focused while the keyboard was still somewhere else
+   * entirely, which is the worst of both worlds for a screen-reader user.
+   *
+   * The containment check is what stops it being obnoxious: if focus is
+   * already inside, the user put it there, and stealing it back to the frame
+   * would eject them from a text field on every re-render.
+   */
   useEffect(() => {
-    elementRef.current?.focus({ preventScroll: true });
-  }, []);
+    if (!isFocused) return;
+
+    const element = elementRef.current;
+    if (!element || element.contains(document.activeElement)) return;
+
+    element.focus({ preventScroll: true });
+  }, [isFocused]);
 
   const onKeyDown = (event: ReactKeyboardEvent<HTMLElement>) => {
     const target = event.target as HTMLElement;
@@ -88,6 +104,11 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
 
     // Alt+arrows move the window; adding Shift resizes it. Alt is used because
     // arrows alone must stay available for scrolling the application inside.
+    //
+    // Text entry is exempt: Alt+Left and Alt+Right are word navigation in a
+    // field on macOS, and silently moving the window instead would break the
+    // Contact form and the terminal for anyone who edits by keyboard.
+    if (isTextEntry) return;
     if (!event.altKey || !event.key.startsWith('Arrow')) return;
     if (isMaximised) return;
 
