@@ -51,7 +51,7 @@ export function BootManager({ children }: { children: ReactNode }) {
    * Decide the entry point once preferences are known.
    *
    * A deep link bypasses boot and login entirely. Someone arriving on
-   * `?app=hotel-manager` from a job application asked for a specific thing;
+   * `?app=hotel-734` from a job application asked for a specific thing;
    * making them sit through a startup animation to reach it would be the exact
    * failure this whole design is meant to avoid.
    */

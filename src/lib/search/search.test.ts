@@ -35,8 +35,8 @@ describe('matching', () => {
   });
 
   it('finds a project by its executable name', () => {
-    const results = search('HotelManager.exe');
-    expect(results.some((result) => result.id === 'project:hotel-manager')).toBe(true);
+    const results = search('Hotel734.exe');
+    expect(results.some((result) => result.id === 'project:hotel-734')).toBe(true);
   });
 
   it('is case insensitive', () => {

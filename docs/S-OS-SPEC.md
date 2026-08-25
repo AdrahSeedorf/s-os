@@ -48,9 +48,16 @@ Author: technical partner notes for Seedorf Obeng-Mireku
 
 ### 1.4 Open items — blocking full content build
 
-1. Capstone: team or solo, actual role, and whether code/screenshots may be published
-2. Date Generator: stack, AI provider, deployment URL, remaining work
-3. Hotel System: stack and completeness
+1. Capstone: team or solo, actual role, and whether code/screenshots may be
+   published. Folder not yet connected — the placeholder stands.
+2. ~~Date Generator~~ — resolved. The project is *Hidden Truths*, written up
+   from the repository. Unpublished by choice: it contains private personal
+   material, so it carries a `publicationNote` and no links.
+3. ~~Hotel System~~ — resolved. *734*, a Next.js 14 design prototype on mock
+   data. Not under version control, so its dates need confirming.
+3a. Original start dates for Library Management and Nine-Board Tic-Tac-Toe.
+    Both repositories' histories begin at the most recent work, so the dates
+    currently in the data files are the repository dates, not the true ones.
 4. ~~GitHub, LinkedIn, public email~~ — done
 5. Skill tier confirmation
 6. Whether security/compliance becomes a stated positioning pillar

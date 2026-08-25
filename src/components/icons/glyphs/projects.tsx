@@ -68,8 +68,8 @@ export function CapstoneGlyph(props: GlyphProps) {
   );
 }
 
-/** Date Generator — two joined marks with a generated spark. */
-export function DateGeneratorGlyph(props: GlyphProps) {
+/** Hidden Truths — a dated keepsake, sealed with a heart. */
+export function HiddenTruthsGlyph(props: GlyphProps) {
   return (
     <IconFrame {...props}>
       <rect x="2.5" y="5" width="19" height="15.5" rx="2.4" fill={ink.base} />
@@ -86,8 +86,8 @@ export function DateGeneratorGlyph(props: GlyphProps) {
   );
 }
 
-/** Hotel — a building with a lit reception floor. */
-export function HotelManagerGlyph(props: GlyphProps) {
+/** 734 — a hotel block with a lit reception floor. */
+export function Hotel734Glyph(props: GlyphProps) {
   return (
     <IconFrame {...props}>
       <path d="M4 6.4A1.8 1.8 0 0 1 5.8 4.6h12.4A1.8 1.8 0 0 1 20 6.4V21H4z" fill={ink.base} />
@@ -105,8 +105,8 @@ export function HotelManagerGlyph(props: GlyphProps) {
   );
 }
 
-/** Farm — a barn roof over a management grid. */
-export function FarmManagerGlyph(props: GlyphProps) {
+/** ADRAH Farms — a barn roof over a management grid. */
+export function AdrahFarmsGlyph(props: GlyphProps) {
   return (
     <IconFrame {...props}>
       <path d="M12 3.2 21 7.8v2.1H3V7.8z" fill={ink.deep} />
@@ -119,6 +119,78 @@ export function FarmManagerGlyph(props: GlyphProps) {
         opacity="0.7"
       />
       <rect x="9.8" y="15.6" width="4.4" height="5.4" rx="2.2" fill={ink.tint} opacity="0.9" />
+    </IconFrame>
+  );
+}
+
+/**
+ * EV Network Toolkit — a routed path across a network, with the busiest node
+ * filled. The silhouette that survives at 24px is the zigzag, which is the
+ * point of the project: a route chosen through contested stops.
+ */
+export function EvNetworkGlyph(props: GlyphProps) {
+  return (
+    <IconFrame {...props}>
+      <path
+        d="M4.4 17.6 9 9.4l4.6 5 5.6-8.2"
+        fill="none"
+        stroke={ink.base}
+        strokeWidth="2.1"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <circle cx="4.4" cy="17.6" r="2.1" fill={ink.base} />
+      <circle cx="19.2" cy="6.2" r="2.1" fill={ink.base} />
+      <circle cx="9" cy="9.4" r="2.6" fill={ink.deep} />
+      <circle cx="13.6" cy="14.4" r="2.1" fill={ink.base} />
+      <path d="M9.4 7.5 7.7 10.2h1.5l-0.6 2 2-2.9H9.1z" fill={ink.tint} />
+    </IconFrame>
+  );
+}
+
+/** Library Management — three shelved volumes, one pulled out on loan. */
+export function LibraryGlyph(props: GlyphProps) {
+  return (
+    <IconFrame {...props}>
+      <rect x="3.4" y="5.2" width="3.6" height="13.6" rx="1" fill={ink.base} />
+      <rect x="7.8" y="5.2" width="3.6" height="13.6" rx="1" fill={ink.deep} />
+      <g fill={ink.tint} opacity="0.75">
+        <rect x="4.2" y="8" width="2" height="1.2" rx="0.6" />
+        <rect x="8.6" y="8" width="2" height="1.2" rx="0.6" />
+      </g>
+      {/* The tilted volume is the loan: the catalogue minus one copy. */}
+      <rect
+        x="13.4"
+        y="6.4"
+        width="3.6"
+        height="13.6"
+        rx="1"
+        fill={ink.base}
+        transform="rotate(12 15.2 13.2)"
+      />
+      <rect x="3.4" y="19.4" width="17.2" height="1.6" rx="0.8" fill={ink.deep} />
+    </IconFrame>
+  );
+}
+
+/** Nine-Board Tic-Tac-Toe — the 3x3 of boards, with the active one marked. */
+export function NineBoardGlyph(props: GlyphProps) {
+  return (
+    <IconFrame {...props}>
+      <rect x="3" y="3" width="18" height="18" rx="2.4" fill={ink.base} />
+      <g stroke={ink.tint} strokeWidth="1" opacity="0.45" strokeLinecap="round">
+        <path d="M9 4.2v15.6M15 4.2v15.6M4.2 9h15.6M4.2 15h15.6" />
+      </g>
+      {/* One board highlighted — the redirect rule is the whole game. */}
+      <rect x="9.4" y="9.4" width="5.2" height="5.2" rx="1" fill={ink.deep} />
+      <path
+        d="M10.7 10.7l2.6 2.6M13.3 10.7l-2.6 2.6"
+        stroke={ink.tint}
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+      <circle cx="6" cy="6" r="1.5" fill={ink.tint} opacity="0.8" />
+      <circle cx="18" cy="18" r="1.5" fill={ink.tint} opacity="0.8" />
     </IconFrame>
   );
 }

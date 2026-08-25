@@ -35,7 +35,7 @@ describe('opening applications', () => {
 
   it('allows several project windows at once', () => {
     const first = store().openApp('project', { projectId: 's-os' });
-    const second = store().openApp('project', { projectId: 'hotel-manager' });
+    const second = store().openApp('project', { projectId: 'hotel-734' });
 
     expect(second).not.toBe(first);
     expect(Object.keys(store().windows)).toHaveLength(2);

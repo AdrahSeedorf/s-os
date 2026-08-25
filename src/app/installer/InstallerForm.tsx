@@ -300,7 +300,7 @@ export function InstallerForm({ existingIds, knownIcons, knownSkills }: Props) {
                   label="Recording path"
                   value={draft.videoSrc}
                   onChange={(event) => set('videoSrc', event.target.value)}
-                  hint="For example /demos/hotel-manager.mp4"
+                  hint="For example /demos/hotel-734.mp4"
                   {...errorProps('videoSrc')}
                   required
                 />

@@ -9,7 +9,7 @@ import { useWindowStore } from '@/stores/windowStore';
  * Without this, every visitor shares the same URL no matter what they are
  * looking at, and there is no way to send someone to one project. With it,
  * focusing the Hotel Manager window makes the address bar read
- * `?app=hotel-manager`, and that URL reopens exactly that window.
+ * `?app=hotel-734`, and that URL reopens exactly that window.
  *
  * Uses history.replaceState rather than the Next router deliberately. Pushing
  * a route would remount the shell and tear down every open window; replacing

@@ -66,6 +66,14 @@ export const skills: readonly Skill[] = [
     note: 'Custom-property design systems, layout, and responsive behaviour.',
   },
 
+  {
+    id: 'cpp',
+    name: 'C++',
+    category: 'languages',
+    level: 'working-knowledge',
+    note: 'Modern C++17 across two projects — a routing engine and a game-search engine.',
+  },
+
   // --- Frontend ----------------------------------------------------------
   {
     id: 'react',
@@ -102,6 +110,14 @@ export const skills: readonly Skill[] = [
     note: 'WCAG contrast, keyboard operability and assistive-technology semantics.',
   },
 
+  {
+    id: 'framer-motion',
+    name: 'Framer Motion',
+    category: 'frontend',
+    level: 'working-knowledge',
+    note: 'Screen transitions and cinematic sequencing in Hidden Truths.',
+  },
+
   // --- Backend -----------------------------------------------------------
   {
     id: 'nodejs',
@@ -114,6 +130,28 @@ export const skills: readonly Skill[] = [
     name: 'REST APIs',
     category: 'backend',
     level: 'working-knowledge',
+  },
+
+  {
+    id: 'prisma',
+    name: 'Prisma',
+    category: 'backend',
+    level: 'working-knowledge',
+    note: 'Schema design, migrations and typed queries on the ADRAH Farms platform.',
+  },
+  {
+    id: 'authentication',
+    name: 'Authentication & Authorisation',
+    category: 'backend',
+    level: 'working-knowledge',
+    note: 'Auth.js sessions, Argon2id hashing, and a single server-side permission gate.',
+  },
+  {
+    id: 'llm-integration',
+    name: 'LLM Integration',
+    category: 'backend',
+    level: 'working-knowledge',
+    note: 'Prompt design and defensive response parsing against the Anthropic API.',
   },
 
   // --- Databases ---------------------------------------------------------
@@ -188,6 +226,42 @@ export const skills: readonly Skill[] = [
     level: 'learning',
   },
 
+  {
+    id: 'cmake',
+    name: 'CMake',
+    category: 'tools',
+    level: 'working-knowledge',
+    note: 'Multi-target C++ builds with sanitiser and warnings-as-errors options.',
+  },
+  {
+    id: 'maven',
+    name: 'Maven',
+    category: 'tools',
+    level: 'working-knowledge',
+    note: 'Build, test and packaging for the Java library system.',
+  },
+  {
+    id: 'ci-cd',
+    name: 'CI Pipelines',
+    category: 'tools',
+    level: 'working-knowledge',
+    note: 'GitHub Actions matrices across compilers, operating systems and JDK versions.',
+  },
+  {
+    id: 'junit',
+    name: 'JUnit',
+    category: 'tools',
+    level: 'working-knowledge',
+    note: 'Regression suites driving a console application end to end.',
+  },
+  {
+    id: 'catch2',
+    name: 'Catch2',
+    category: 'tools',
+    level: 'working-knowledge',
+    note: 'Unit and dataset tests for the C++ routing engine.',
+  },
+
   // --- Practices ---------------------------------------------------------
   {
     id: 'project-management',
@@ -202,5 +276,40 @@ export const skills: readonly Skill[] = [
     category: 'practices',
     level: 'learning',
     note: 'Separation of concerns, data-layer seams and dependency direction.',
+  },
+  {
+    id: 'algorithms',
+    name: 'Algorithms & Search',
+    category: 'practices',
+    level: 'working-knowledge',
+    note: 'Dijkstra over composite state, alpha-beta with a transposition table, and MCTS.',
+  },
+  {
+    id: 'event-sourcing',
+    name: 'Event Sourcing',
+    category: 'practices',
+    level: 'working-knowledge',
+    note: 'Append-only ledgers where the current figure is always derived, never stored.',
+  },
+  {
+    id: 'discrete-event-simulation',
+    name: 'Discrete-Event Simulation',
+    category: 'practices',
+    level: 'working-knowledge',
+    note: 'A queueing simulator whose measured waits corrected a static model by 1,500x.',
+  },
+  {
+    id: 'legacy-code',
+    name: 'Working with Legacy Code',
+    category: 'practices',
+    level: 'working-knowledge',
+    note: 'Reproducing a defect and pinning it with a test before changing a line.',
+  },
+  {
+    id: 'testing',
+    name: 'Automated Testing',
+    category: 'practices',
+    level: 'proficient',
+    note: 'Unit, integration and regression suites in Vitest, JUnit and Catch2.',
   },
 ];

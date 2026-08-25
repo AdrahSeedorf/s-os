@@ -142,8 +142,8 @@ describe('entry paths', () => {
   });
 
   it('queues a deep-linked app', () => {
-    state().enterDesktop('guest', { appId: 'hotel-manager' });
-    expect(state().pendingAppId).toBe('hotel-manager');
+    state().enterDesktop('guest', { appId: 'hotel-734' });
+    expect(state().pendingAppId).toBe('hotel-734');
   });
 
   it('hands the pending app over exactly once', () => {

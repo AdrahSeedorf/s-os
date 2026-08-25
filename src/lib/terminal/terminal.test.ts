@@ -100,12 +100,14 @@ describe('content commands', () => {
   it('projects lists every installed program', () => {
     const output = textOf('projects');
     expect(output).toContain('S-OS.exe');
-    expect(output).toContain('HotelManager.exe');
+    expect(output).toContain('Hotel734.exe');
   });
 
   it('projects filters by status', () => {
-    const output = textOf('projects planned');
-    expect(output).toContain('FarmManager.exe');
+    // S-OS is in development, so a stable filter that still lists it would
+    // mean the filter is being ignored rather than applied.
+    const output = textOf('projects stable');
+    expect(output).toContain('LibraryManager.jar');
     expect(output).not.toContain('S-OS.exe');
   });
 

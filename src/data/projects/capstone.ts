@@ -17,7 +17,7 @@ export const capstone: Project = {
   version: '0.1.0',
   status: 'in-development',
   category: 'university',
-  featured: true,
+  featured: false,
   desktopShortcut: false,
 
   tagline:

@@ -1,9 +1,12 @@
 import type { Project } from '@/types/content';
 import { sOs } from './s-os';
+import { adrahFarms } from './adrah-farms';
+import { evNetworkToolkit } from './ev-network-toolkit';
+import { libraryManagement } from './library-management';
+import { hotel734 } from './hotel-734';
+import { nineBoardTicTacToe } from './nine-board-tictactoe';
+import { hiddenTruths } from './hidden-truths';
 import { capstone } from './capstone';
-import { dateGenerator } from './date-generator';
-import { hotelManager } from './hotel-manager';
-import { farmManager } from './farm-manager';
 
 /**
  * The installed-programs registry.
@@ -14,12 +17,16 @@ import { farmManager } from './farm-manager';
  * keeping its own.
  *
  * Order is authored, not alphabetical — it is the order a reviewer should
- * meet the work in.
+ * meet the work in. Strongest evidence first, then breadth, then the entries
+ * that are honest about being early.
  */
 export const projects: readonly Project[] = [
   sOs,
+  adrahFarms,
+  evNetworkToolkit,
+  libraryManagement,
+  nineBoardTicTacToe,
+  hotel734,
+  hiddenTruths,
   capstone,
-  dateGenerator,
-  hotelManager,
-  farmManager,
 ];

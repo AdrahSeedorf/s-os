@@ -35,10 +35,13 @@ import {
   TerminalGlyph,
 } from './glyphs/apps';
 import {
+  AdrahFarmsGlyph,
   CapstoneGlyph,
-  DateGeneratorGlyph,
-  FarmManagerGlyph,
-  HotelManagerGlyph,
+  EvNetworkGlyph,
+  HiddenTruthsGlyph,
+  Hotel734Glyph,
+  LibraryGlyph,
+  NineBoardGlyph,
   SosProjectGlyph,
 } from './glyphs/projects';
 
@@ -59,9 +62,12 @@ export const iconRegistry: Readonly<Record<string, ComponentType<GlyphProps>>> =
   // Projects
   sos: SosProjectGlyph,
   capstone: CapstoneGlyph,
-  'date-generator': DateGeneratorGlyph,
-  'hotel-manager': HotelManagerGlyph,
-  'farm-manager': FarmManagerGlyph,
+  'hidden-truths': HiddenTruthsGlyph,
+  'hotel-734': Hotel734Glyph,
+  'adrah-farms': AdrahFarmsGlyph,
+  'ev-network': EvNetworkGlyph,
+  library: LibraryGlyph,
+  'nine-board': NineBoardGlyph,
 
   // Applications
   about: AboutGlyph,
