@@ -12,6 +12,7 @@ import { ProjectsApp } from '@/apps/ProjectsApp';
 import { ExplorerApp } from '@/apps/ExplorerApp';
 import { DocumentsApp } from '@/apps/DocumentsApp';
 import { DemoViewerApp } from '@/apps/DemoViewerApp';
+import { TerminalApp } from '@/apps/TerminalApp';
 
 /**
  * The application registry.
@@ -161,7 +162,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'S-OS Developer Console',
     icon: 'terminal',
     description: 'Navigate the portfolio by command.',
-    component: placeholder('Milestone 9'),
+    component: TerminalApp,
     defaultSize: { width: 720, height: 460 },
     constraints: { minWidth: 420, minHeight: 260 },
     desktopShortcut: true,
