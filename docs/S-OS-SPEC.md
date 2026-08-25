@@ -51,10 +51,14 @@ Author: technical partner notes for Seedorf Obeng-Mireku
 1. Capstone: team or solo, actual role, and whether code/screenshots may be published
 2. Date Generator: stack, AI provider, deployment URL, remaining work
 3. Hotel System: stack and completeness
-4. GitHub, LinkedIn, public email
+4. ~~GitHub, LinkedIn, public email~~ — done
 5. Skill tier confirmation
 6. Whether security/compliance becomes a stated positioning pillar
-7. Avatar image, project screenshots, resume content
+7. Avatar image (done), project screenshots, resume content
+8. Demo material per project: a deployment URL for anything shipped, or a
+   screen recording (with its pixel dimensions) for the Java and C++ work.
+   Projects with neither are shown as source-only, which is stated plainly
+   rather than left blank.
 
 None of these block Milestones 0–4. They are placeholdered and swapped in via the data layer.
 

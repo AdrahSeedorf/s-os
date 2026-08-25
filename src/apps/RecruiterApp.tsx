@@ -4,6 +4,7 @@ import { Download, Mail, ArrowUpRight } from 'lucide-react';
 import { Badge, Button, GlassPanel } from '@/components/ui';
 import { ProgramIcon } from '@/components/icons';
 import {
+  getDemoUrl,
   getEducation,
   getExperience,
   getFeaturedProjects,
@@ -184,7 +185,7 @@ export function RecruiterApp() {
                           Open
                         </Button>
                         <ExternalAction href={project.links.github} label="Source" />
-                        <ExternalAction href={project.links.live} label="Live demo" />
+                        <ExternalAction href={getDemoUrl(project)} label="Live demo" />
                       </div>
                     </div>
                   </GlassPanel>

@@ -5,8 +5,9 @@ import Image from 'next/image';
 import { Lock, MonitorPlay } from 'lucide-react';
 import { Badge, Button, GlassPanel, Tabs, type TabDefinition } from '@/components/ui';
 import { ProgramIcon } from '@/components/icons';
-import { getProjectById, getSkillsForProject } from '@/lib/content';
+import { getDemoUrl, getProjectById, getSkillsForProject } from '@/lib/content';
 import {
+  DEMO_KIND_LABEL,
   PROJECT_CATEGORY_LABEL,
   PROJECT_STATUS_LABEL,
   type Project,
@@ -58,6 +59,12 @@ export function ProjectApp({ params }: AppProps) {
       content: <OverviewTab project={project} />,
     },
     {
+      id: 'demo',
+      label: 'Demo',
+      available: project.demo !== undefined,
+      content: <DemoTab project={project} />,
+    },
+    {
       id: 'engineering',
       label: 'Engineering',
       available: project.architecture !== undefined || project.challenges.length > 0,
@@ -93,6 +100,7 @@ export function ProjectApp({ params }: AppProps) {
 function ProjectHeader({ project }: { project: Project }) {
   const openApp = useWindowStore((state) => state.openApp);
   const restricted = project.publicationNote !== undefined;
+  const demo = project.demo;
 
   return (
     <header className="border-glass-border flex shrink-0 flex-col gap-3 border-b p-5">
@@ -117,14 +125,14 @@ function ProjectHeader({ project }: { project: Project }) {
       </div>
 
       <div className="flex flex-wrap items-center gap-2">
-        {project.embeddable && project.links.live ? (
+        {demo?.kind === 'live' && demo.embeddable ? (
           <Button
             variant="primary"
             size="sm"
             iconStart={<MonitorPlay size={13} />}
             onClick={() =>
               openApp('demo-viewer', {
-                url: project.links.live ?? '',
+                url: demo.url,
                 title: project.displayName,
               })
             }
@@ -133,7 +141,7 @@ function ProjectHeader({ project }: { project: Project }) {
           </Button>
         ) : null}
 
-        <ExternalAction href={project.links.live} label="Live demo" />
+        <ExternalAction href={getDemoUrl(project)} label="Open live site" />
         <ExternalAction href={project.links.github} label="Source code" />
         <ExternalAction href={project.links.docs} label="Documentation" />
 
@@ -148,6 +156,86 @@ function ProjectHeader({ project }: { project: Project }) {
         ) : null}
       </div>
     </header>
+  );
+}
+
+/**
+ * How the project can be experienced, stated plainly.
+ *
+ * The label is never left to inference. A recruiter who watches a recording
+ * must know it is a recording — a video that looks like a running application
+ * is the kind of ambiguity that costs credibility the moment it is noticed.
+ */
+function DemoTab({ project }: { project: Project }) {
+  const demo = project.demo;
+  const openApp = useWindowStore((state) => state.openApp);
+  if (!demo) return null;
+
+  return (
+    <div className="flex flex-col gap-4 p-5">
+      <div className="flex flex-wrap items-center gap-2">
+        <Badge tone="accent">{DEMO_KIND_LABEL[demo.kind]}</Badge>
+        {demo.kind === 'live' && !demo.embeddable ? (
+          <span className="text-muted text-[11.5px]">
+            This site cannot run inside an S-OS window, so it opens in a new tab.
+          </span>
+        ) : null}
+      </div>
+
+      {demo.kind === 'live' ? (
+        <>
+          <p className="text-secondary text-[12.5px] leading-relaxed">
+            The deployed application, running for real at{' '}
+            <span className="text-muted font-mono text-[11.5px]">{demo.url}</span>.
+          </p>
+
+          {demo.note ? (
+            <p className="text-status-dev border-status-dev/40 bg-status-dev/5 rounded-r-sm border-l-2 py-2 pl-3 text-[12px] leading-relaxed">
+              {demo.note}
+            </p>
+          ) : null}
+
+          <div className="flex flex-wrap items-center gap-2">
+            {demo.embeddable ? (
+              <Button
+                variant="primary"
+                size="sm"
+                iconStart={<MonitorPlay size={13} />}
+                onClick={() =>
+                  openApp('demo-viewer', { url: demo.url, title: project.displayName })
+                }
+              >
+                Launch demo
+              </Button>
+            ) : null}
+            <ExternalAction href={demo.url} label="Open live site" />
+          </div>
+        </>
+      ) : (
+        <figure className="flex flex-col gap-2">
+          {/* Dimensions come from the content model for the same reason
+              screenshots carry them: the player reserves its box before the
+              file loads, so opening this tab never shifts the layout. */}
+          {/* No <track>: these are silent screen recordings, so there is no
+              audio to caption. The figcaption carries the description. */}
+          <video
+            controls
+            preload="metadata"
+            width={demo.width}
+            height={demo.height}
+            {...(demo.poster ? { poster: demo.poster } : {})}
+            className="border-glass-border h-auto w-full rounded-md border"
+          >
+            <source src={demo.src} />
+            Your browser cannot play this recording.
+          </video>
+          <figcaption className="text-muted text-[11.5px] leading-relaxed">
+            {demo.caption ??
+              'A recording of the application running locally — not a live deployment.'}
+          </figcaption>
+        </figure>
+      )}
+    </div>
   );
 }
 
@@ -197,6 +285,15 @@ function OverviewTab({ project }: { project: Project }) {
                 ? [{ label: 'Completed', value: formatMonth(project.dateCompleted) }]
                 : []),
               { label: 'Status', value: PROJECT_STATUS_LABEL[project.status] },
+              // Stated even when absent. "Source only" is a real answer; a
+              // missing row would leave a reader hunting for a demo button
+              // that was never going to be there.
+              {
+                label: 'Demo',
+                value: project.demo
+                  ? DEMO_KIND_LABEL[project.demo.kind]
+                  : 'Source only — nothing deployed to run',
+              },
             ]}
           />
         </GlassPanel>

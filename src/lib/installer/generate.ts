@@ -1,4 +1,4 @@
-import type { ProjectCategory, ProjectStatus } from '@/types/content';
+import type { ProjectCategory, ProjectDemo, ProjectStatus } from '@/types/content';
 
 /**
  * The Project Installer's code generator.
@@ -23,7 +23,17 @@ export interface ProjectDraft {
   category: ProjectCategory;
   featured: boolean;
   desktopShortcut: boolean;
-  embeddable: boolean;
+  /** 'none' is a real answer, not a missing one — most projects are source-only. */
+  demoKind: ProjectDemo['kind'] | 'none';
+  demoUrl: string;
+  demoEmbeddable: boolean;
+  demoNote: string;
+  videoSrc: string;
+  /** Kept as strings because that is what an input yields; parsed at generation
+   *  time so the form can show a validation message instead of emitting NaN. */
+  videoWidth: string;
+  videoHeight: string;
+  videoCaption: string;
   tagline: string;
   overview: string;
   problem: string;
@@ -33,7 +43,6 @@ export interface ProjectDraft {
   features: string[];
   lessons: string[];
   github: string;
-  live: string;
   docs: string;
   dateStarted: string;
   dateCompleted: string;
@@ -50,7 +59,14 @@ export const EMPTY_DRAFT: ProjectDraft = {
   category: 'full-stack',
   featured: false,
   desktopShortcut: false,
-  embeddable: false,
+  demoKind: 'none',
+  demoUrl: '',
+  demoEmbeddable: false,
+  demoNote: '',
+  videoSrc: '',
+  videoWidth: '',
+  videoHeight: '',
+  videoCaption: '',
   tagline: '',
   overview: '',
   problem: '',
@@ -60,7 +76,6 @@ export const EMPTY_DRAFT: ProjectDraft = {
   features: [],
   lessons: [],
   github: '',
-  live: '',
   docs: '',
   dateStarted: '',
   dateCompleted: '',
@@ -126,13 +141,43 @@ export interface GeneratedFiles {
   registryEntry: string;
 }
 
+/**
+ * The `demo` property, or nothing at all.
+ *
+ * Source-only projects omit the key entirely rather than writing
+ * `demo: undefined`, which keeps the generated file identical to one written by
+ * hand and keeps `exactOptionalPropertyTypes` happy.
+ */
+function demoLiteral(draft: ProjectDraft): string {
+  if (draft.demoKind === 'live') {
+    const lines = [
+      `    kind: 'live',`,
+      `    url: ${str(draft.demoUrl.trim())},`,
+      `    embeddable: ${String(draft.demoEmbeddable)},`,
+    ];
+    if (draft.demoNote.trim()) lines.push(`    note: ${str(draft.demoNote.trim())},`);
+
+    return `  demo: {\n${lines.join('\n')}\n  },`;
+  }
+
+  if (draft.demoKind === 'video') {
+    const lines = [`    kind: 'video',`, `    src: ${str(draft.videoSrc.trim())},`];
+    lines.push(`    width: ${String(Number(draft.videoWidth))},`);
+    lines.push(`    height: ${String(Number(draft.videoHeight))},`);
+    if (draft.videoCaption.trim()) lines.push(`    caption: ${str(draft.videoCaption.trim())},`);
+
+    return `  demo: {\n${lines.join('\n')}\n  },`;
+  }
+
+  return '';
+}
+
 export function generateProjectFile(draft: ProjectDraft): GeneratedFiles {
   const id = slugify(draft.id || draft.displayName);
   const name = exportName(id);
 
   const links: string[] = [];
   if (draft.github.trim()) links.push(`    github: ${str(draft.github.trim())},`);
-  if (draft.live.trim()) links.push(`    live: ${str(draft.live.trim())},`);
   if (draft.docs.trim()) links.push(`    docs: ${str(draft.docs.trim())},`);
 
   // Optional fields are omitted entirely rather than written as empty strings,
@@ -140,6 +185,8 @@ export function generateProjectFile(draft: ProjectDraft): GeneratedFiles {
   const optional: string[] = [];
   if (draft.problem.trim()) optional.push(`  problem: ${str(draft.problem.trim())},`);
   if (draft.solution.trim()) optional.push(`  solution: ${str(draft.solution.trim())},`);
+
+  const demo = demoLiteral(draft);
 
   const trailing: string[] = [];
   if (draft.dateCompleted.trim()) {
@@ -173,8 +220,7 @@ ${optional.length > 0 ? `${optional.join('\n')}\n` : ''}  role: ${str(draft.role
 
   screenshots: [],
   links: ${links.length > 0 ? `{\n${links.join('\n')}\n  }` : '{}'},
-  embeddable: ${String(draft.embeddable)},
-
+${demo ? `${demo}\n` : ''}
   dateStarted: ${str(draft.dateStarted.trim())},
 ${trailing.length > 0 ? `${trailing.join('\n')}\n` : ''}};
 `;
@@ -262,10 +308,32 @@ export function validateDraft(
     });
   }
 
-  if (draft.publicationNote.trim() && (draft.github.trim() || draft.live.trim())) {
+  if (draft.demoKind === 'live' && !/^https?:\/\//.test(draft.demoUrl.trim())) {
+    problems.push({
+      field: 'demoUrl',
+      message: 'A live demo needs a full URL, starting with https://.',
+    });
+  }
+
+  if (draft.demoKind === 'video') {
+    if (!draft.videoSrc.trim()) {
+      problems.push({ field: 'videoSrc', message: 'A recording needs a file path.' });
+    }
+
+    // Dimensions are required by the content model so the player reserves its
+    // space; a recording that shifts the layout on load is worse than none.
+    for (const field of ['videoWidth', 'videoHeight'] as const) {
+      const value = Number(draft[field].trim());
+      if (!Number.isInteger(value) || value <= 0) {
+        problems.push({ field, message: 'Give the recording\u2019s pixel size, for example 1280.' });
+      }
+    }
+  }
+
+  if (draft.publicationNote.trim() && (draft.github.trim() || draft.demoKind !== 'none')) {
     problems.push({
       field: 'publicationNote',
-      message: 'A publication-restricted project cannot expose source or demo links.',
+      message: 'A publication-restricted project cannot expose source or a demo.',
     });
   }
 

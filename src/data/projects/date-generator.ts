@@ -35,6 +35,5 @@ export const dateGenerator: Project = {
 
   screenshots: [],
   links: {},
-  embeddable: false,
   dateStarted: '2026-01',
 };

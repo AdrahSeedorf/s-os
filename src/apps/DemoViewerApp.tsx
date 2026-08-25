@@ -14,7 +14,8 @@ import type { AppProps } from '@/os/registry/applications';
  * actually earns its place — a fake browser with nothing to browse would be
  * chrome for its own sake.
  *
- * It only opens projects whose content marks them `embeddable`. Most deployed
+ * It only opens projects whose demo is `kind: 'live'` and marked embeddable.
+ * Most deployed
  * applications send X-Frame-Options or a restrictive frame-ancestors policy,
  * and anything behind a login breaks in a third-party frame, so embedding is
  * opt-in per project after someone has actually checked.

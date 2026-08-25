@@ -34,6 +34,74 @@ const draft: ProjectDraft = {
   dateStarted: '2026-02',
 };
 
+describe('demo generation', () => {
+  it('omits the demo entirely for a source-only project', () => {
+    expect(generateProjectFile(draft).contents).not.toContain('demo:');
+  });
+
+  it('writes a live demo with its embeddability decision', () => {
+    const { contents } = generateProjectFile({
+      ...draft,
+      demoKind: 'live',
+      demoUrl: 'https://weather.example.com',
+      demoEmbeddable: true,
+      demoNote: 'Sign in as guest.',
+    });
+
+    expect(contents).toContain("kind: 'live'");
+    expect(contents).toContain('url: "https://weather.example.com"');
+    expect(contents).toContain('embeddable: true');
+    expect(contents).toContain('note: "Sign in as guest."');
+    expect(contents).not.toContain('src:');
+  });
+
+  it('writes a recording with numeric dimensions, not strings', () => {
+    const { contents } = generateProjectFile({
+      ...draft,
+      demoKind: 'video',
+      videoSrc: '/demos/weather.mp4',
+      videoWidth: '1280',
+      videoHeight: '720',
+    });
+
+    expect(contents).toContain("kind: 'video'");
+    expect(contents).toContain('width: 1280,');
+    expect(contents).toContain('height: 720,');
+    expect(contents).not.toContain('width: "1280"');
+    expect(contents).not.toContain('embeddable:');
+  });
+
+  it('rejects a live demo without a real URL', () => {
+    const problems = validateDraft({ ...draft, demoKind: 'live', demoUrl: 'weather.example' }, options);
+    expect(problems.map((problem) => problem.field)).toContain('demoUrl');
+  });
+
+  it('rejects a recording without dimensions', () => {
+    const problems = validateDraft(
+      { ...draft, demoKind: 'video', videoSrc: '/demos/weather.mp4' },
+      options,
+    );
+    const fields = problems.map((problem) => problem.field);
+
+    expect(fields).toContain('videoWidth');
+    expect(fields).toContain('videoHeight');
+  });
+
+  it('refuses a demo on a publication-restricted project', () => {
+    const problems = validateDraft(
+      {
+        ...draft,
+        demoKind: 'live',
+        demoUrl: 'https://weather.example.com',
+        publicationNote: 'Owned by the university.',
+      },
+      options,
+    );
+
+    expect(problems.map((problem) => problem.field)).toContain('publicationNote');
+  });
+});
+
 describe('slugs and names', () => {
   it('slugifies a display name', () => {
     expect(slugify('Hotel Management System')).toBe('hotel-management-system');

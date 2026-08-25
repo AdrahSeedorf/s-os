@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import {
+  getDemoUrl,
   getDesktopProjects,
   getDocuments,
   getEducation,
@@ -81,6 +82,30 @@ describe('content integrity', () => {
     }
   });
 
+  it('describes every demo completely enough to render', () => {
+    // The union makes the impossible states unrepresentable; this catches the
+    // representable-but-useless ones, like a video with no file behind it.
+    for (const project of getProjects()) {
+      const demo = project.demo;
+      if (!demo) continue;
+
+      if (demo.kind === 'live') {
+        expect(demo.url, `${project.id} demo needs a URL`).toMatch(/^https?:\/\//);
+      } else {
+        expect(demo.src, `${project.id} recording needs a file`).not.toBe('');
+        expect(demo.width, `${project.id} recording needs a width`).toBeGreaterThan(0);
+        expect(demo.height, `${project.id} recording needs a height`).toBeGreaterThan(0);
+      }
+    }
+  });
+
+  it('never advertises a demo for planned work', () => {
+    // Nothing exists to demonstrate yet, so a demo here would be a fabrication.
+    for (const project of getProjects()) {
+      if (project.status === 'planned') expect(project.demo).toBeUndefined();
+    }
+  });
+
   it('never grants a desktop shortcut to unfinished work', () => {
     for (const project of getDesktopProjects()) {
       expect(['stable', 'beta', 'in-development']).toContain(project.status);
@@ -93,7 +118,7 @@ describe('content integrity', () => {
 
     for (const project of restricted) {
       expect(project.links.github).toBeUndefined();
-      expect(project.links.live).toBeUndefined();
+      expect(project.demo).toBeUndefined();
     }
   });
 });
@@ -102,6 +127,21 @@ describe('project accessors', () => {
   it('finds a project by id and returns undefined for an unknown one', () => {
     expect(getProjectById('s-os')?.displayName).toBe('S-OS');
     expect(getProjectById('does-not-exist')).toBeUndefined();
+  });
+
+  it('resolves a visitable URL only for a live demo', () => {
+    const live = { kind: 'live', url: 'https://example.com', embeddable: false } as const;
+    const video = { kind: 'video', src: '/demo.mp4', width: 1280, height: 720 } as const;
+    const base = getProjectById('s-os');
+    expect(base).toBeDefined();
+    if (!base) return;
+
+    expect(getDemoUrl({ ...base, demo: live })).toBe('https://example.com');
+    // A recording is watched in place — offering it as a link would send a
+    // reviewer to a bare .mp4 and call it the application.
+    expect(getDemoUrl({ ...base, demo: video })).toBeUndefined();
+    // S-OS itself is source-only: it is the site you are already looking at.
+    expect(getDemoUrl(base)).toBeUndefined();
   });
 
   it('excludes planned work from the featured shortlist', () => {

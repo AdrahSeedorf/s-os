@@ -12,7 +12,11 @@ import {
   validateDraft,
   type ProjectDraft,
 } from '@/lib/installer/generate';
-import { PROJECT_CATEGORY_LABEL, PROJECT_STATUS_LABEL } from '@/types/content';
+import {
+  DEMO_KIND_LABEL,
+  PROJECT_CATEGORY_LABEL,
+  PROJECT_STATUS_LABEL,
+} from '@/types/content';
 import type { ProjectCategory, ProjectStatus } from '@/types/content';
 
 interface Props {
@@ -252,11 +256,80 @@ export function InstallerForm({ existingIds, knownIcons, knownSkills }: Props) {
               value={draft.github}
               onChange={(event) => set('github', event.target.value)}
             />
-            <TextField
-              label="Live demo URL"
-              value={draft.live}
-              onChange={(event) => set('live', event.target.value)}
+            {/* The demo is asked as one question with one answer, mirroring the
+                content model. Fields for the other kinds are not rendered at
+                all, so it is impossible to fill in a video size for a live
+                site and wonder why it was ignored. */}
+            <Select
+              label="Demo"
+              value={draft.demoKind}
+              onChange={(value) => set('demoKind', value as ProjectDraft['demoKind'])}
+              options={[
+                ['none', 'Source only — nothing to run'],
+                ['live', DEMO_KIND_LABEL.live],
+                ['video', DEMO_KIND_LABEL.video],
+              ]}
             />
+
+            {draft.demoKind === 'live' ? (
+              <>
+                <TextField
+                  label="Live demo URL"
+                  value={draft.demoUrl}
+                  onChange={(event) => set('demoUrl', event.target.value)}
+                  {...errorProps('demoUrl')}
+                  required
+                />
+                <TextField
+                  label="Demo note"
+                  value={draft.demoNote}
+                  onChange={(event) => set('demoNote', event.target.value)}
+                  hint="Sign-in details, or what to try first. Optional."
+                />
+                <Checkbox
+                  label="Demo can be embedded in an S-OS window"
+                  checked={draft.demoEmbeddable}
+                  onChange={(value) => set('demoEmbeddable', value)}
+                />
+              </>
+            ) : null}
+
+            {draft.demoKind === 'video' ? (
+              <>
+                <TextField
+                  label="Recording path"
+                  value={draft.videoSrc}
+                  onChange={(event) => set('videoSrc', event.target.value)}
+                  hint="For example /demos/hotel-manager.mp4"
+                  {...errorProps('videoSrc')}
+                  required
+                />
+                <div className="grid gap-4 sm:grid-cols-2">
+                  <TextField
+                    label="Width"
+                    value={draft.videoWidth}
+                    onChange={(event) => set('videoWidth', event.target.value)}
+                    hint="Pixels"
+                    {...errorProps('videoWidth')}
+                    required
+                  />
+                  <TextField
+                    label="Height"
+                    value={draft.videoHeight}
+                    onChange={(event) => set('videoHeight', event.target.value)}
+                    hint="Pixels"
+                    {...errorProps('videoHeight')}
+                    required
+                  />
+                </div>
+                <TextField
+                  label="Caption"
+                  value={draft.videoCaption}
+                  onChange={(event) => set('videoCaption', event.target.value)}
+                  hint="What the recording shows. Optional."
+                />
+              </>
+            ) : null}
 
             <TextAreaField
               label="Publication restriction"
@@ -278,11 +351,6 @@ export function InstallerForm({ existingIds, knownIcons, knownSkills }: Props) {
                 checked={draft.desktopShortcut}
                 onChange={(value) => set('desktopShortcut', value)}
                 {...errorProps('desktopShortcut')}
-              />
-              <Checkbox
-                label="Demo can be embedded in an S-OS window"
-                checked={draft.embeddable}
-                onChange={(value) => set('embeddable', value)}
               />
             </div>
           </GlassPanel>

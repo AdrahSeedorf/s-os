@@ -33,6 +33,5 @@ export const hotelManager: Project = {
 
   screenshots: [],
   links: {},
-  embeddable: false,
   dateStarted: '2025-01',
 };

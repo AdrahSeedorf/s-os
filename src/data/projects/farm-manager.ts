@@ -38,6 +38,5 @@ export const farmManager: Project = {
 
   screenshots: [],
   links: {},
-  embeddable: false,
   dateStarted: '2026-08',
 };

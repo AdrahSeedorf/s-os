@@ -116,6 +116,17 @@ export function getProjectsGroupedByCategory(): readonly ProjectCategoryGroup[] 
   }));
 }
 
+/**
+ * The URL a visitor can open for a project, if there is one.
+ *
+ * Only a live demo has one; a recording is watched in place. Having a single
+ * accessor means the recruiter card, the project window and the static page
+ * cannot disagree about whether a project is reachable.
+ */
+export function getDemoUrl(project: Project): string | undefined {
+  return project.demo?.kind === 'live' ? project.demo.url : undefined;
+}
+
 /** Projects that demonstrate a given skill. Derived, never stored — which is
  *  why the Skills application can never disagree with a project page. */
 export function getProjectsUsingSkill(skillId: SkillId): readonly Project[] {

@@ -140,9 +140,61 @@ export interface BuildLog {
   readonly updated: IsoDate;
 }
 
+/**
+ * How a project can actually be experienced.
+ *
+ * A discriminated union rather than a pile of optional fields, because the
+ * options are genuinely exclusive and each needs different data — a live site
+ * needs a URL and an embeddability decision, a recording needs dimensions to
+ * reserve space. Modelling it as `videoUrl?` plus `liveUrl?` plus `embeddable?`
+ * would allow states like "a video that is embeddable", which means nothing.
+ *
+ * Absent means source-only: the code is on GitHub and there is nothing to run.
+ * That is a legitimate answer and the application says so plainly rather than
+ * leaving a reader wondering whether a button failed to load.
+ *
+ * The union is the extension point. A WebAssembly variant — compiling a C++
+ * project with Emscripten and running it in the S-OS terminal — is the natural
+ * next member, and adding it is a contained change here plus one branch in the
+ * project window. It is deliberately not declared until it can be rendered:
+ * a variant nothing implements is a promise the type system cannot keep.
+ */
+export type ProjectDemo =
+  | {
+      readonly kind: 'live';
+      /** The deployed application. */
+      readonly url: string;
+      /**
+       * Whether it may run inside an S-OS window.
+       *
+       * Set true only after checking that the deployed site actually renders
+       * in a frame. Most applications send X-Frame-Options or a restrictive
+       * frame-ancestors policy, and anything behind a login breaks in a
+       * third-party frame because browsers block the cookies it needs.
+       */
+      readonly embeddable: boolean;
+      /** Shown beside the demo — sign-in details, or what to try first. */
+      readonly note?: string;
+    }
+  | {
+      readonly kind: 'video';
+      readonly src: string;
+      /** Shown before playback begins, so the tab is not a black rectangle. */
+      readonly poster?: string;
+      /** Required, so the player reserves its space and the layout does not
+       *  jump when the file loads. */
+      readonly width: number;
+      readonly height: number;
+      readonly caption?: string;
+    };
+
+export const DEMO_KIND_LABEL: Readonly<Record<ProjectDemo['kind'], string>> = {
+  live: 'Live application',
+  video: 'Screen recording',
+};
+
 export interface ProjectLinks {
   readonly github?: string;
-  readonly live?: string;
   readonly docs?: string;
   readonly caseStudy?: string;
 }
@@ -196,13 +248,9 @@ export interface Project {
   readonly links: ProjectLinks;
 
   /**
-   * May the deployed demo be shown inside an S-OS window?
-   *
-   * False by default. Most deployed apps send X-Frame-Options or a restrictive
-   * frame-ancestors policy, and anything with a login breaks in a third-party
-   * frame. Set true only after confirming the target actually renders embedded.
+   * How this project can be experienced, if at all. Absent means source-only.
    */
-  readonly embeddable: boolean;
+  readonly demo?: ProjectDemo;
 
   readonly dateStarted: IsoDate;
   readonly dateCompleted?: IsoDate;

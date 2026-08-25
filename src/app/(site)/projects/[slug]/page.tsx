@@ -2,7 +2,13 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { site } from '@/lib/config/site';
-import { getProfile, getProjectById, getProjects, getSkillsForProject } from '@/lib/content';
+import {
+  getDemoUrl,
+  getProfile,
+  getProjectById,
+  getProjects,
+  getSkillsForProject,
+} from '@/lib/content';
 import { PROJECT_CATEGORY_LABEL, PROJECT_STATUS_LABEL } from '@/types/content';
 import { formatMonth } from '@/lib/utils/dates';
 
@@ -48,6 +54,7 @@ export default async function ProjectPage({ params }: PageProps) {
   if (!project) notFound();
 
   const technologies = getSkillsForProject(project);
+  const demoUrl = getDemoUrl(project);
 
   return (
     <>
@@ -93,9 +100,9 @@ export default async function ProjectPage({ params }: PageProps) {
                 Source code
               </a>
             ) : null}
-            {project.links.live ? (
+            {demoUrl ? (
               <a
-                href={project.links.live}
+                href={demoUrl}
                 rel="noopener noreferrer"
                 className="text-accent-300 hover:underline"
               >
@@ -112,6 +119,29 @@ export default async function ProjectPage({ params }: PageProps) {
           <p className="text-status-dev border-status-dev/40 border-l-2 py-2 pl-3 text-[12.5px] leading-relaxed">
             {project.publicationNote}
           </p>
+        ) : null}
+
+        {/* A recording is worth having on the shareable URL too — but it is
+            labelled, and never dressed up as the running application. */}
+        {project.demo?.kind === 'video' ? (
+          <figure className="flex flex-col gap-2">
+            {/* No <track>: silent screen recording, described by the caption. */}
+            <video
+              controls
+              preload="none"
+              width={project.demo.width}
+              height={project.demo.height}
+              {...(project.demo.poster ? { poster: project.demo.poster } : {})}
+              className="border-glass-border h-auto w-full rounded-md border"
+            >
+              <source src={project.demo.src} />
+              Your browser cannot play this recording.
+            </video>
+            <figcaption className="text-muted text-[12px] leading-relaxed">
+              Screen recording —{' '}
+              {project.demo.caption ?? 'the application running locally, not a live deployment.'}
+            </figcaption>
+          </figure>
         ) : null}
 
         <Section title="Overview">

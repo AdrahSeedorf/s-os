@@ -44,7 +44,6 @@ export const capstone: Project = {
 
   screenshots: [],
   links: {},
-  embeddable: false,
   dateStarted: '2026-01',
 
   publicationNote:

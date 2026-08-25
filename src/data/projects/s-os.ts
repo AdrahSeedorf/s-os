@@ -112,6 +112,5 @@ export const sOs: Project = {
   links: {
     github: 'https://github.com/AdrahSeedorf/s-os',
   },
-  embeddable: false,
   dateStarted: '2026-08',
 };
