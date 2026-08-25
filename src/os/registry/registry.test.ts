@@ -16,12 +16,10 @@ import { iconRegistry } from '@/components/icons';
 const LAZY = Symbol.for('react.lazy');
 
 describe('code splitting', () => {
-  it('defers every application except the placeholder', () => {
+  it('defers every application', () => {
     // A static import here would quietly put the whole application back in
     // the first-load bundle, and nothing else in the build would complain.
     for (const app of applications) {
-      if (app.id === 'settings') continue; // still a placeholder, trivially small
-
       const component = app.component as unknown as { $$typeof?: symbol };
       expect(component.$$typeof, `${app.id} is not lazily loaded`).toBe(LAZY);
     }

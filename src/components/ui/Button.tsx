@@ -1,5 +1,8 @@
+'use client';
+
 import { type ButtonHTMLAttributes, type ReactNode, type Ref } from 'react';
 import { cn } from '@/lib/utils/cn';
+import { useSound } from '@/lib/audio/useSound';
 
 export type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'chrome' | 'danger';
 export type ButtonSize = 'sm' | 'md' | 'lg';
@@ -58,11 +61,21 @@ export function Button({
   className,
   type = 'button',
   children,
+  onClick,
   ...props
 }: ButtonProps) {
+  const sound = useSound();
+
   return (
     <button
       type={type}
+      // The click lives here rather than at each call site, so a control
+      // cannot be added later and silently be the one thing that makes no
+      // noise. Silent by default: useSound checks the preference.
+      onClick={(event) => {
+        sound('click');
+        onClick?.(event);
+      }}
       className={cn(
         'inline-flex items-center justify-center font-medium whitespace-nowrap select-none',
         'transition-colors duration-(--sos-duration-fast) ease-(--ease-out-os)',

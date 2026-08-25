@@ -17,6 +17,8 @@ import { useClock } from '@/lib/hooks/useClock';
 import { getProfile } from '@/lib/content';
 import { DEMO_CREDENTIALS, useSystemStore } from '@/stores/systemStore';
 import { usePreferencesStore } from '@/stores/preferencesStore';
+import { useSound } from '@/lib/audio/useSound';
+import { play } from '@/lib/audio/engine';
 
 /**
  * One of the alternative ways in.
@@ -73,6 +75,19 @@ export function LoginScreen() {
   const restart = useSystemStore((state) => state.restart);
 
   const soundEnabled = usePreferencesStore((state) => state.soundEnabled);
+  const sound = useSound();
+
+  /**
+   * Entering the desktop, with the chime.
+   *
+   * The chime plays here rather than in the desktop because this is the click
+   * — browsers will not start an AudioContext without a gesture, and a sound
+   * fired from a mount effect on the next screen would simply be dropped.
+   */
+  const enter = (mode: Parameters<typeof enterDesktop>[0]) => {
+    sound('login');
+    enterDesktop(mode);
+  };
   const setSoundEnabled = usePreferencesStore((state) => state.setSoundEnabled);
   const contrast = usePreferencesStore((state) => state.contrast);
   const setContrast = usePreferencesStore((state) => state.setContrast);
@@ -171,13 +186,13 @@ export function LoginScreen() {
                 icon="recruiter"
                 title="Recruiter Mode"
                 description="Everything professional, in one window"
-                onSelect={() => enterDesktop('recruiter')}
+                onSelect={() => enter('recruiter')}
               />
               <EntryCard
                 icon="sos"
                 title="Continue as Guest"
                 description="Explore the full system"
-                onSelect={() => enterDesktop('guest')}
+                onSelect={() => enter('guest')}
               />
             </div>
           </div>
@@ -187,7 +202,12 @@ export function LoginScreen() {
           <div className="flex items-center gap-1">
             <IconButton
               label={soundEnabled ? 'Mute system sound' : 'Enable system sound'}
-              onClick={() => setSoundEnabled(!soundEnabled)}
+              onClick={() => {
+                setSoundEnabled(!soundEnabled);
+                // Play *after* enabling, so turning it on demonstrates what
+                // was turned on. Turning it off is silent, as it should be.
+                if (!soundEnabled) play('toggle', { enabled: true });
+              }}
               aria-pressed={soundEnabled}
             >
               {soundEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}

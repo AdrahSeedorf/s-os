@@ -1,7 +1,6 @@
 import { lazy, type ComponentType } from 'react';
 import type { Size, WindowConstraints } from '@/types/window';
 import { DEFAULT_CONSTRAINTS } from '@/types/window';
-import { PlaceholderApp } from '@/apps/PlaceholderApp';
 
 /**
  * Applications are code-split, one chunk each.
@@ -29,6 +28,7 @@ const TerminalApp = lazy(async () => ({ default: (await import('@/apps/TerminalA
 const SystemInfoApp = lazy(async () => ({ default: (await import('@/apps/SystemInfoApp')).SystemInfoApp }));
 const ContactApp = lazy(async () => ({ default: (await import('@/apps/ContactApp')).ContactApp }));
 const DemoViewerApp = lazy(async () => ({ default: (await import('@/apps/DemoViewerApp')).DemoViewerApp }));
+const SettingsApp = lazy(async () => ({ default: (await import('@/apps/SettingsApp')).SettingsApp }));
 
 /**
  * The application registry.
@@ -76,17 +76,6 @@ export interface AppDefinition {
   desktopShortcut?: boolean;
   /** Pinned to the taskbar, left of the running windows. */
   pinned?: boolean;
-}
-
-/**
- * Applications arriving in later milestones render a placeholder that names
- * the milestone. An honest "not built yet" is better than a convincing shell
- * with nothing behind it — and it keeps the window manager demonstrable now.
- */
-function placeholder(milestone: string): ComponentType<AppProps> {
-  const Component = (props: AppProps) => <PlaceholderApp {...props} milestone={milestone} />;
-  Component.displayName = `Placeholder(${milestone})`;
-  return Component;
 }
 
 export const applications: readonly AppDefinition[] = [
@@ -221,8 +210,8 @@ export const applications: readonly AppDefinition[] = [
     title: 'Settings',
     icon: 'settings',
     description: 'Sound, motion and contrast.',
-    component: placeholder('Milestone 16'),
-    defaultSize: { width: 600, height: 480 },
+    component: SettingsApp,
+    defaultSize: { width: 620, height: 620 },
   },
 ];
 

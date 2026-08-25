@@ -16,6 +16,7 @@ import { useWindowStore } from '@/stores/windowStore';
 import type { ResizeEdge, WindowInstance } from '@/types/window';
 import { zIndexFor } from './windowStack';
 import { useWindowGesture } from './useWindowGesture';
+import { useSound } from '@/lib/audio/useSound';
 
 /** How far the arrow keys move or resize a window per press. */
 const KEYBOARD_STEP = 16;
@@ -54,6 +55,7 @@ export interface OSWindowProps {
 export function OSWindow({ instance, isFocused }: OSWindowProps) {
   const elementRef = useRef<HTMLElement>(null);
   const titleId = useId();
+  const sound = useSound();
 
   const order = useWindowStore((state) => state.order);
   const focusWindow = useWindowStore((state) => state.focusWindow);
@@ -74,6 +76,13 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
     constraints: instance.constraints,
     disabled: isMaximised,
   });
+
+  // Mount only: a window announces its arrival once, not on every focus
+  // change. Silent unless the visitor has turned sound on.
+  useEffect(() => {
+    sound('window-open');
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- opening happens once
+  }, []);
 
   /**
    * Keep real focus with the focused window.
@@ -104,6 +113,7 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
 
     if (event.key === 'Escape' && !isTextEntry) {
       event.preventDefault();
+      sound('window-close');
       closeWindow(instance.id);
       return;
     }
@@ -169,7 +179,11 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
     >
       <header
         onPointerDown={onDragStart}
-        onDoubleClick={() => instance.constraints.maximisable && toggleMaximise(instance.id)}
+        onDoubleClick={() => {
+          if (!instance.constraints.maximisable) return;
+          sound(isMaximised ? 'window-minimise' : 'window-maximise');
+          toggleMaximise(instance.id);
+        }}
         className={cn(
           'flex h-(--sos-titlebar-height) shrink-0 items-center gap-2 pr-1 pl-2.5 select-none',
           'border-glass-border border-b',
@@ -195,7 +209,10 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
             variant="chrome"
             size="sm"
             onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => minimise(instance.id)}
+            onClick={() => {
+              sound('window-minimise');
+              minimise(instance.id);
+            }}
           >
             <Minus size={13} />
           </IconButton>
@@ -206,7 +223,10 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
               variant="chrome"
               size="sm"
               onPointerDown={(event) => event.stopPropagation()}
-              onClick={() => toggleMaximise(instance.id)}
+              onClick={() => {
+                sound(isMaximised ? 'window-minimise' : 'window-maximise');
+                toggleMaximise(instance.id);
+              }}
             >
               {isMaximised ? <Square size={11} /> : <Maximize2 size={11} />}
             </IconButton>
@@ -217,7 +237,10 @@ export function OSWindow({ instance, isFocused }: OSWindowProps) {
             variant="danger"
             size="sm"
             onPointerDown={(event) => event.stopPropagation()}
-            onClick={() => closeWindow(instance.id)}
+            onClick={() => {
+              sound('window-close');
+              closeWindow(instance.id);
+            }}
           >
             <X size={13} />
           </IconButton>

@@ -16,6 +16,7 @@ import { ProjectsApp } from '@/apps/ProjectsApp';
 import { ProjectApp } from '@/apps/ProjectApp';
 import { ExplorerApp } from '@/apps/ExplorerApp';
 import { TerminalApp } from '@/apps/TerminalApp';
+import { SettingsApp } from '@/apps/SettingsApp';
 import { resetWindowStore, useWindowStore } from '@/stores/windowStore';
 
 /**
@@ -108,6 +109,7 @@ describe('applications', () => {
     ['Project', () => <ProjectApp windowId="w" params={{ projectId: 's-os' }} />],
     ['File Explorer', () => <ExplorerApp windowId="w" params={{}} />],
     ['Terminal', () => <TerminalApp windowId="w" params={{}} />],
+    ['Settings', () => <SettingsApp />],
   ];
 
   for (const [name, factory] of cases) {
