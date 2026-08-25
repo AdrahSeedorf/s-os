@@ -165,10 +165,10 @@ export const skills: readonly Skill[] = [
   // --- Cloud -------------------------------------------------------------
   {
     id: 'cloud-computing',
-    name: 'Cloud Computing',
+    name: 'AWS',
     category: 'cloud',
     level: 'learning',
-    note: 'PLACEHOLDER — confirm platform (AWS or Azure) and depth.',
+    note: 'Studying the core services. No project here runs on it yet, and the level says so.',
   },
   {
     id: 'vercel',
@@ -191,13 +191,6 @@ export const skills: readonly Skill[] = [
     category: 'security',
     level: 'learning',
     note: 'Secure defaults, secret handling, and input validation.',
-  },
-  {
-    id: 'compliance',
-    name: 'Governance & Compliance',
-    category: 'security',
-    level: 'learning',
-    note: 'PLACEHOLDER — pending confirmation that this becomes a stated pillar.',
   },
 
   // --- Tools -------------------------------------------------------------

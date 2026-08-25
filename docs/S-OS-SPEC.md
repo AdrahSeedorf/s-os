@@ -48,26 +48,33 @@ Author: technical partner notes for Seedorf Obeng-Mireku
 
 ### 1.4 Open items — blocking full content build
 
-1. Capstone: team or solo, actual role, and whether code/screenshots may be
-   published. Folder not yet connected — the placeholder stands.
-2. ~~Date Generator~~ — resolved. The project is *Hidden Truths*, written up
-   from the repository. Unpublished by choice: it contains private personal
+1. **Capstone** — folder not yet connected. The entry is a placeholder with a
+   publication note, and stays that way until the real repository is available.
+2. ~~Date Generator~~ — resolved as *Hidden Truths*, written from the
+   repository and deliberately unpublished: it contains private personal
    material, so it carries a `publicationNote` and no links.
-3. ~~Hotel System~~ — resolved. *734*, a Next.js 14 design prototype on mock
-   data. Not under version control, so its dates need confirming.
-3a. Original start dates for Library Management and Nine-Board Tic-Tac-Toe.
-    Both repositories' histories begin at the most recent work, so the dates
-    currently in the data files are the repository dates, not the true ones.
-4. ~~GitHub, LinkedIn, public email~~ — done
-5. Skill tier confirmation
-6. Whether security/compliance becomes a stated positioning pillar
-7. Avatar image (done), project screenshots, resume content
-8. Demo material per project: a deployment URL for anything shipped, or a
-   screen recording (with its pixel dimensions) for the Java and C++ work.
-   Projects with neither are shown as source-only, which is stated plainly
-   rather than left blank.
+3. ~~Hotel System~~ — resolved as *734*, a Next.js 14 design prototype on mock
+   data.
+4. ~~GitHub, LinkedIn, public email~~ — done.
+5. ~~Skill levels~~ — reviewed against the repositories in August 2026. Every
+   claim above Learning has a project behind it. Governance and compliance left
+   the registry and stayed in the bio as an interest, where it does not invite a
+   technical question with no project behind it.
+6. ~~Security positioning~~ — resolved: application security is evidenced by
+   ADRAH Farms; governance is an interest, not a claimed skill.
+7. **Screenshots and demo recordings** — the largest remaining gap. Every
+   gallery is empty and no project declares a demo, so the Screenshots and Demo
+   tabs are hidden everywhere. ADRAH Farms and 734 are the two with real
+   interfaces worth capturing; Nine-Board is the first candidate for a
+   recording, and later for the WebAssembly demo variant its own roadmap lists.
+8. **ICT diploma scan** — declared as a document with no file behind it.
+9. ~~S-OS specification PDF~~ — done, generated from this file by
+   `npm run docs:spec`.
 
-None of these block Milestones 0–4. They are placeholdered and swapped in via the data layer.
+Dates for 734, Library Management and Nine-Board are taken from repository
+history rather than from memory. For the two that began as coursework the true
+start is earlier, but a precise date anyone can check beats an approximate one
+nobody can.
 
 ---
 

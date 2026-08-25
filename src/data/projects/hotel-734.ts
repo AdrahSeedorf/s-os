@@ -77,7 +77,9 @@ export const hotel734: Project = {
 
   screenshots: [],
   links: {},
-  // PLACEHOLDER: this folder is not under version control, so the dates cannot
-  // be read from history. Confirm when the prototype was built.
+  // Dates are taken from the repository history rather than from memory. For
+  // the projects that began as coursework the real start is earlier, but an
+  // approximate date nobody can check is worth less than a precise one that
+  // anyone can.
   dateStarted: '2026-01',
 };

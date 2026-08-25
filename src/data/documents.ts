@@ -51,6 +51,8 @@ export const documents: readonly PortfolioDocument[] = [
     description:
       'Product specification and implementation plan for S-OS: scope, architecture and roadmap.',
     relatedProjectId: 's-os',
-    // PENDING: published copy of docs/S-OS-SPEC.md.
+    src: '/documents/s-os-specification.pdf',
+    sizeBytes: 90_066,
+    updated: '2026-08',
   },
 ];

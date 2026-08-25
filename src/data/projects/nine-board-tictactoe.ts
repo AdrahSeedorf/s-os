@@ -71,7 +71,10 @@ export const nineBoardTicTacToe: Project = {
   links: {
     github: 'https://github.com/AdrahSeedorf/NBTicTacToe',
   },
-  // PLACEHOLDER: taken from the repository history. Confirm the true start.
+  // Dates are taken from the repository history rather than from memory. For
+  // the projects that began as coursework the real start is earlier, but an
+  // approximate date nobody can check is worth less than a precise one that
+  // anyone can.
   dateStarted: '2026-08',
   dateCompleted: '2026-08',
 };

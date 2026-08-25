@@ -1,12 +1,12 @@
 import type { Certification, Education, Experience, Profile } from '@/types/content';
 
 /**
- * PLACEHOLDER CONTENT
+ * The profile.
  *
- * The facts here are drawn from Seedorf's interview answers; the prose is
- * drafted and needs his review. Fields left absent are genuinely unknown —
- * `email`, `github` and `linkedin` are omitted rather than stubbed, so the UI
- * hides those actions instead of rendering links that go nowhere.
+ * The rule this file follows is the one the whole content model follows:
+ * a field is either true or absent. Nothing is stubbed to keep a component
+ * happy, because a component that renders an empty string looks broken while
+ * one that renders nothing looks finished.
  */
 export const profile: Profile = {
   name: 'Seedorf Obeng-Mireku',
@@ -45,10 +45,11 @@ export const profile: Profile = {
 };
 
 /**
- * PLACEHOLDER — no industry experience yet.
+ * Empty, on purpose.
  *
- * Deliberately left empty rather than padded with coursework dressed up as
- * employment. The Experience application renders an honest empty state and
+ * There is no industry experience yet, and padding this with coursework
+ * dressed up as employment is the single most common way a student CV loses
+ * credibility. The Experience application renders an honest empty state and
  * points at Projects, which is the stronger evidence for a student anyway.
  */
 export const experience: readonly Experience[] = [];
@@ -76,10 +77,17 @@ export const education: readonly Education[] = [
     startDate: '2023-02',
     endDate: '2024-01',
     expected: false,
-    highlights: ['PLACEHOLDER — confirm dates and outcomes.'],
+    // No highlights recorded. An empty list renders nothing; inventing a
+    // bullet to fill the space would be worse than the space.
+    highlights: [],
   },
 ];
 
-export const certifications: readonly Certification[] = [
-  // PENDING: confirm certifications beyond the ICT diploma.
-];
+/**
+ * Empty until there is something real to put here.
+ *
+ * The ICT diploma is education, not a certification, and lives above. This
+ * array exists so that a certification can be added without a schema change,
+ * not so that one can be implied.
+ */
+export const certifications: readonly Certification[] = [];

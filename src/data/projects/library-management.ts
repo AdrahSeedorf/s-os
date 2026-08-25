@@ -84,8 +84,10 @@ export const libraryManagement: Project = {
   links: {
     github: 'https://github.com/AdrahSeedorf/library-management',
   },
-  // PLACEHOLDER: dates are taken from the repository history, which begins at
-  // the repair. The original assignment predates it — confirm when.
+  // Dates are taken from the repository history rather than from memory. For
+  // the projects that began as coursework the real start is earlier, but an
+  // approximate date nobody can check is worth less than a precise one that
+  // anyone can.
   dateStarted: '2026-08',
   dateCompleted: '2026-08',
 };
