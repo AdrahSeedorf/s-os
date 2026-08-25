@@ -211,6 +211,14 @@ export function getDocumentById(id: string): PortfolioDocument | undefined {
   return active.documents.find((document) => document.id === id);
 }
 
+/**
+ * The resume to put in front of a person.
+ *
+ * There is more than one resume document — the same content is also published
+ * in a plain layout for systems that parse the file — so this returns the
+ * first, and registry order decides which that is. The designed version leads
+ * deliberately: every surface that calls this is showing it to a human.
+ */
 export function getResume(): PortfolioDocument | undefined {
   return active.documents.find((document) => document.kind === 'resume');
 }

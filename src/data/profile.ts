@@ -63,7 +63,8 @@ export const education: readonly Education[] = [
     endDate: '2027-01',
     expected: true,
     highlights: [
-      'PLACEHOLDER — confirm start date, majors and any notable units.',
+      'Coursework includes Data Structures and Algorithms, Object-Oriented Programming, Database Design and Development, Computer Networks, and Systems Analysis and Design.',
+      'Concentration: Systems Programming.',
       'Capstone project: a management system for students in professional experience placements.',
     ],
   },

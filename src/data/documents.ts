@@ -15,10 +15,25 @@ export const documents: readonly PortfolioDocument[] = [
     kind: 'resume',
     description: 'Curriculum vitae — software engineering internship and graduate roles.',
     src: '/documents/seedorf-obeng-mireku-resume.pdf',
-    sizeBytes: 192_105,
-    // The honest date. This version predates every project in the portfolio,
-    // including S-OS itself — see the note in the Resume application.
-    updated: '2024-06',
+    sizeBytes: 20_700,
+    updated: '2026-08',
+  },
+  {
+    // The same words, rendered plainly.
+    //
+    // Applicant tracking systems read the text layer and mangle anything with
+    // columns, banded headers or coloured rules. Rather than compromise the
+    // document a person reads, there are two — generated from one source file,
+    // so they cannot drift apart and start contradicting each other.
+    id: 'resume-ats',
+    name: 'Resume (plain text layout)',
+    fileName: 'Resume-Plain.pdf',
+    kind: 'resume',
+    description:
+      'The same resume in a single-column layout, for application forms that parse the file automatically.',
+    src: '/documents/seedorf-obeng-mireku-resume-ats.pdf',
+    sizeBytes: 9_376,
+    updated: '2026-08',
   },
   {
     id: 'diploma-ict',

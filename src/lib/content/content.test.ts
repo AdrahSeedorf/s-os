@@ -123,6 +123,25 @@ describe('content integrity', () => {
   });
 });
 
+describe('documents', () => {
+  it('leads with the designed resume, not the plain one', () => {
+    // Registry order decides what a person is shown. If the plain-layout file
+    // ever drifts to the front, Recruiter Mode starts handing out the version
+    // built for a parser.
+    const resume = getResume();
+    expect(resume?.id).toBe('resume');
+  });
+
+  it('gives every resume a file, since that is the one link that must not 404', () => {
+    const resumes = getDocuments().filter((document) => document.kind === 'resume');
+    expect(resumes.length).toBeGreaterThan(0);
+
+    for (const resume of resumes) {
+      expect(isDocumentAvailable(resume), `${resume.id} has no file`).toBe(true);
+    }
+  });
+});
+
 describe('project accessors', () => {
   it('finds a project by id and returns undefined for an unknown one', () => {
     expect(getProjectById('s-os')?.displayName).toBe('S-OS');
