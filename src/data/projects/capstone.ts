@@ -23,7 +23,10 @@ export const capstone: Project = {
   version: '1.0.0',
   status: 'stable',
   category: 'university',
-  featured: false,
+  // Featured, despite linking to nothing. It is the only project here with a
+  // client, a team and a delivery lifecycle behind it, and a shortlist of five
+  // solo projects would misrepresent what Seedorf has actually done.
+  featured: true,
   desktopShortcut: false,
 
   tagline:

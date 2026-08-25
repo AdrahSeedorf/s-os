@@ -305,13 +305,17 @@ def body(s: Sheet) -> None:
         c.setFont(s.regular, 8.4)
         c.setFillColor(ACCENT_INK if s.branded else MUTED)
         c.drawRightString(s.right, s.y - 9.6, project["link"])
-        w = c.stringWidth(project["link"], s.regular, 8.4)
-        c.linkURL(
-            project["url"],
-            (s.right - w, s.y - 12, s.right, s.y - 5),
-            relative=0,
-            thickness=0,
-        )
+        # Not every project has a URL. The capstone was delivered to a sponsor
+        # and is not published, so its right-hand note says so in plain words
+        # rather than pretending to be a link that goes nowhere.
+        if project["url"]:
+            w = c.stringWidth(project["link"], s.regular, 8.4)
+            c.linkURL(
+                project["url"],
+                (s.right - w, s.y - 12, s.right, s.y - 5),
+                relative=0,
+                thickness=0,
+            )
         s.y -= 13
 
         s.para(project["stack"], size=8.5, leading=11.4, colour=MUTED)

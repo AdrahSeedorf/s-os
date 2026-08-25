@@ -15,7 +15,7 @@ export const documents: readonly PortfolioDocument[] = [
     kind: 'resume',
     description: 'Curriculum vitae — software engineering internship and graduate roles.',
     src: '/documents/seedorf-obeng-mireku-resume.pdf',
-    sizeBytes: 20_700,
+    sizeBytes: 21_382,
     updated: '2026-08',
   },
   {
@@ -32,7 +32,7 @@ export const documents: readonly PortfolioDocument[] = [
     description:
       'The same resume in a single-column layout, for application forms that parse the file automatically.',
     src: '/documents/seedorf-obeng-mireku-resume-ats.pdf',
-    sizeBytes: 9_376,
+    sizeBytes: 10_053,
     updated: '2026-08',
   },
   {

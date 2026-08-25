@@ -84,6 +84,25 @@ PROJECTS = [
         ],
     },
     {
+        "name": "Capstone Management System — Team Lead, Sponsored Client Project",
+        "stack": "TypeScript · Next.js · Prisma · PostgreSQL · Auth.js · Jest · Playwright",
+        "link": "Delivered to sponsor — not published",
+        "url": "",
+        "points": [
+            "Led a team of four delivering a role-based platform to an external sponsor, replacing a "
+            "legacy system their own security team had partly taken offline. Ran requirements "
+            "gathering, client review meetings and final handover under an agile process.",
+            "Largest contributor to the repository with 124 of its 348 commits, across ~25,000 lines "
+            "of TypeScript and a 39-model schema.",
+            "Owned the supervisor module end to end — evaluation, peer-review matrix, presentation "
+            "marking and team management — deriving each student's contribution share from live "
+            "matrix scores and guarding the supervisor override against totals exceeding 100%.",
+            "Partitioned the codebase by role rather than by layer so four developers owned modules "
+            "with real boundaries, and covered the marking workflow with Playwright end-to-end tests "
+            "run in CI, since a wrong total is not an exception but a number that looks fine.",
+        ],
+    },
+    {
         "name": "ADRAH Farms — Poultry Production Platform",
         "stack": "TypeScript · Next.js · Prisma · PostgreSQL · Auth.js · Zod",
         "link": "github.com/AdrahSeedorf/farm",
@@ -180,7 +199,6 @@ SKILLS = [
 ]
 
 ADDITIONAL = [
-    ("Honours", "Third place, Regional Coding Competition — Ashanti Region, Ghana (2022)"),
     ("Languages", "English, French, Akan"),
     ("Interests", "Reading, soccer, music, cooking"),
 ]

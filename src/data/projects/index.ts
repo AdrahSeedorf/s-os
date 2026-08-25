@@ -23,10 +23,10 @@ import { capstone } from './capstone';
 export const projects: readonly Project[] = [
   sOs,
   adrahFarms,
+  capstone,
   evNetworkToolkit,
   libraryManagement,
   nineBoardTicTacToe,
   hotel734,
   hiddenTruths,
-  capstone,
 ];
