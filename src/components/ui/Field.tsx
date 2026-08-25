@@ -11,7 +11,7 @@ import { cn } from '@/lib/utils/cn';
 
 const CONTROL_BASE = [
   'sos-inset w-full rounded-sm px-3 text-[13px] text-primary',
-  'placeholder:text-disabled',
+  'placeholder:text-placeholder',
   'transition-[box-shadow,border-color] duration-(--sos-duration-fast)',
   'focus:border-accent-500/70 focus:shadow-[inset_0_1px_3px_rgb(0_0_0/0.5),0_0_0_2px_rgb(38_174_230/0.28)]',
   'disabled:opacity-50',

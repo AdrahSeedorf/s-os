@@ -11,8 +11,8 @@ import type { Skill } from '@/types/content';
  * technical question, whereas an honest "Learning" alongside a shipped project
  * reads as self-aware.
  *
- * PLACEHOLDER: levels are drafted from the project inventory and need
- * Seedorf's confirmation. See docs/S-OS-SPEC.md §1.4.
+ * Levels were reviewed against the repositories in August 2026: every claim
+ * above Learning has a project behind it that an interviewer can open.
  */
 export const skills: readonly Skill[] = [
   // --- Languages ---------------------------------------------------------
@@ -21,21 +21,21 @@ export const skills: readonly Skill[] = [
     name: 'JavaScript',
     category: 'languages',
     level: 'proficient',
-    note: 'Primary language across web projects.',
+    note: 'The language underneath the TypeScript; rarely written directly.',
   },
   {
     id: 'typescript',
     name: 'TypeScript',
     category: 'languages',
-    level: 'working-knowledge',
-    note: 'Strict-mode TypeScript throughout S-OS, including its content model.',
+    level: 'proficient',
+    note: 'Strict-mode TypeScript across four codebases, including S-OS under noUncheckedIndexedAccess and exactOptionalPropertyTypes.',
   },
   {
     id: 'python',
     name: 'Python',
     category: 'languages',
-    level: 'proficient',
-    note: 'Coursework, scripting and data handling.',
+    level: 'working-knowledge',
+    note: 'Analysis, dataset ingestion and map rendering scripts for the EV Network Toolkit.',
   },
   {
     id: 'java',
@@ -48,8 +48,8 @@ export const skills: readonly Skill[] = [
     id: 'sql',
     name: 'SQL',
     category: 'languages',
-    level: 'proficient',
-    note: 'Schema design and querying for relational application data.',
+    level: 'working-knowledge',
+    note: 'Relational schema design, mostly expressed through Prisma rather than written by hand.',
   },
   {
     id: 'html',
@@ -79,15 +79,15 @@ export const skills: readonly Skill[] = [
     id: 'react',
     name: 'React',
     category: 'frontend',
-    level: 'working-knowledge',
-    note: 'Component architecture, hooks, and render-cost awareness.',
+    level: 'proficient',
+    note: 'Four App Router applications, including a window manager whose state updates at frame rate.',
   },
   {
     id: 'nextjs',
     name: 'Next.js',
     category: 'frontend',
-    level: 'working-knowledge',
-    note: 'App Router, server and client component boundaries, route handlers.',
+    level: 'proficient',
+    note: 'Four applications using server components, route handlers, static generation and generated metadata.',
   },
   {
     id: 'tailwind',
@@ -99,15 +99,15 @@ export const skills: readonly Skill[] = [
     id: 'zustand',
     name: 'Zustand',
     category: 'frontend',
-    level: 'learning',
-    note: 'Selector-based state for high-frequency updates.',
+    level: 'working-knowledge',
+    note: 'The S-OS window manager: selector subscriptions so a drag re-renders one window rather than every consumer.',
   },
   {
     id: 'accessibility',
     name: 'Web Accessibility',
     category: 'frontend',
-    level: 'learning',
-    note: 'WCAG contrast, keyboard operability and assistive-technology semantics.',
+    level: 'working-knowledge',
+    note: 'Labelled dialogs with managed focus, keyboard move and resize, contrast-tested surfaces, high-contrast and reduced-motion modes.',
   },
 
   {
@@ -158,12 +158,6 @@ export const skills: readonly Skill[] = [
   {
     id: 'postgresql',
     name: 'PostgreSQL',
-    category: 'databases',
-    level: 'working-knowledge',
-  },
-  {
-    id: 'mysql',
-    name: 'MySQL',
     category: 'databases',
     level: 'working-knowledge',
   },
@@ -223,7 +217,8 @@ export const skills: readonly Skill[] = [
     id: 'vitest',
     name: 'Vitest',
     category: 'tools',
-    level: 'learning',
+    level: 'proficient',
+    note: '357 tests in S-OS and 135 in the ADRAH Farms platform, covering pure logic, stores and rendered applications.',
   },
 
   {
@@ -274,8 +269,8 @@ export const skills: readonly Skill[] = [
     id: 'software-architecture',
     name: 'Software Architecture',
     category: 'practices',
-    level: 'learning',
-    note: 'Separation of concerns, data-layer seams and dependency direction.',
+    level: 'proficient',
+    note: 'Layered design with lint-enforced boundaries, an append-only event ledger, and a domain core written without its own domain nouns.',
   },
   {
     id: 'algorithms',

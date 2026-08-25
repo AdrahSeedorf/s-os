@@ -34,12 +34,22 @@
   --sos-accent-800: #0c4373;
 
   /* --- Text ------------------------------------------------------------- */
-  /* Verified against --sos-bg-app: primary 15.8:1, secondary 8.9:1,
-     muted 5.1:1. Muted is never used for body copy, only metadata. */
+  /* Ratios are computed, not estimated — run `python3 tools/audit/contrast.py`,
+     which composites the translucent surfaces properly before measuring.
+     The binding case is not the application background but glass over it,
+     which is around 0.3 darker; muted at 0.56 measured 4.42:1 there and
+     failed AA, so it is 0.60.
+
+     Against glass over --sos-bg-app: primary 15.0:1, secondary 8.4:1,
+     muted 4.9:1. Disabled is deliberately below AA and is only ever used for
+     genuinely inert text, never for placeholders — see .sos-inset. */
   --sos-text-primary: rgb(255 255 255 / 0.95);
   --sos-text-secondary: rgb(226 240 250 / 0.74);
-  --sos-text-muted: rgb(198 218 235 / 0.56);
+  --sos-text-muted: rgb(198 218 235 / 0.6);
   --sos-text-disabled: rgb(198 218 235 / 0.32);
+  /* Placeholders are text and must clear AA. text-disabled measures 2.31:1 on
+     an input well, which is unreadable for anyone who needs the hint. */
+  --sos-text-placeholder: rgb(198 218 235 / 0.56);
   --sos-text-inverse: #06131c;
   --sos-text-accent: var(--sos-accent-300);
 
@@ -177,6 +187,7 @@
   --sos-text-secondary: rgb(235 245 255 / 0.94);
   --sos-text-muted: rgb(220 235 248 / 0.85);
   --sos-text-disabled: rgb(200 220 235 / 0.6);
+  --sos-text-placeholder: rgb(220 235 248 / 0.85);
 
   --sos-focus-ring-width: 3px;
 }
