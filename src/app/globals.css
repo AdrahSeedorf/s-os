@@ -204,6 +204,19 @@
     }
   }
 
+  /* Toasts slide up from the taskbar rather than fading in place, so the
+     direction hints where they came from. */
+  @keyframes sos-toast-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
   /* Screen-reader-only, but focusable when used for skip links. */
   .sr-only {
     position: absolute;

@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import { Wallpaper } from '@/components/brand';
+import { NotificationManager } from '@/os/notifications/NotificationManager';
 import { WindowManager } from '@/os/window/WindowManager';
 import { useSystemStore } from '@/stores/systemStore';
 import { useWindowStore } from '@/stores/windowStore';
@@ -52,6 +53,8 @@ export function Desktop() {
       <div id="sos-taskbar">
         <Taskbar />
       </div>
+
+      <NotificationManager />
     </div>
   );
 }

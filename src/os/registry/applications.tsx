@@ -13,6 +13,7 @@ import { ExplorerApp } from '@/apps/ExplorerApp';
 import { DocumentsApp } from '@/apps/DocumentsApp';
 import { DemoViewerApp } from '@/apps/DemoViewerApp';
 import { TerminalApp } from '@/apps/TerminalApp';
+import { ContactApp } from '@/apps/ContactApp';
 
 /**
  * The application registry.
@@ -183,7 +184,7 @@ export const applications: readonly AppDefinition[] = [
     title: 'Contact',
     icon: 'contact',
     description: 'Send a message, or find the direct links.',
-    component: placeholder('Milestone 11'),
+    component: ContactApp,
     defaultSize: { width: 560, height: 560 },
     desktopShortcut: true,
     constraints: { maximisable: false },
