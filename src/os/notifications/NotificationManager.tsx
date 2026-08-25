@@ -34,7 +34,14 @@ export function NotificationManager() {
 
   return (
     <div
-      aria-live="polite"
+      // A generic div may not carry aria-label — ARIA forbids naming an
+      // element with no role, so the label was being discarded and the region
+      // announced as nothing. role="status" gives it a name and a polite live
+      // region in one.
+      role="status"
+      // status implies aria-atomic="true", which would re-read every visible
+      // toast each time one arrived. Only the new one is news.
+      aria-atomic="false"
       aria-label="Notifications"
       className="pointer-events-none fixed right-3 bottom-[calc(var(--sos-taskbar-height)+12px)] flex w-[min(92vw,22rem)] flex-col gap-2"
       style={{ zIndex: 'var(--sos-z-notification)' }}

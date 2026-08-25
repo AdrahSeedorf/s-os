@@ -36,6 +36,12 @@ export function Desktop() {
     <div className="relative h-screen overflow-hidden" data-shell="desktop">
       <Wallpaper />
 
+      {/* The desktop's content is entirely dynamic, so without this the
+          heading outline starts at the window titles and a screen-reader user
+          navigating by heading has no idea what they are inside. Visually
+          hidden because the wallpaper already says it to everyone else. */}
+      <h1 className="sr-only">S-OS — Seedorf Obeng-Mireku</h1>
+
       {/* A skip link, because the desktop is a large interactive region and a
           keyboard visitor should be able to get past it. */}
       <a
@@ -50,9 +56,7 @@ export function Desktop() {
         <WindowManager />
       </main>
 
-      <div id="sos-taskbar">
-        <Taskbar />
-      </div>
+      <Taskbar />
 
       <NotificationManager />
     </div>

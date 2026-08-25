@@ -29,15 +29,26 @@ export function Taskbar() {
   const running = creationOrder.map((id) => windows[id]).filter((entry) => entry !== undefined);
 
   return (
-    <div
-      className="bg-taskbar border-glass-border absolute inset-x-0 bottom-0 flex h-(--sos-taskbar-height) items-center gap-1 border-t px-1.5 backdrop-blur-(--sos-glass-blur)"
+    // A landmark, not a div. The taskbar is the shell's persistent navigation
+    // and the target of the skip link, and a bare div is neither announced nor
+    // reachable by landmark navigation.
+    //
+    // tabIndex={-1} is what actually makes the skip link work: browsers only
+    // move focus to a fragment target that can hold focus, so without it
+    // "Skip to taskbar" scrolls and then leaves the keyboard back at the top.
+    <nav
+      id="sos-taskbar"
+      tabIndex={-1}
+      aria-label="Taskbar"
+      data-focus-custom
+      className="bg-taskbar border-glass-border absolute inset-x-0 bottom-0 flex h-(--sos-taskbar-height) items-center gap-1 border-t px-1.5 outline-none backdrop-blur-(--sos-glass-blur)"
       style={{ zIndex: 'var(--sos-z-taskbar)' }}
     >
       <StartButton />
 
       <div className="bg-glass-border mx-1 h-6 w-px" aria-hidden="true" />
 
-      <nav aria-label="Pinned programs" className="flex items-center gap-0.5">
+      <div role="group" aria-label="Pinned programs" className="flex items-center gap-0.5">
         {pinned.map((app) => (
           <button
             key={app.id}
@@ -50,11 +61,15 @@ export function Taskbar() {
             <ProgramIcon icon={app.icon} size={20} />
           </button>
         ))}
-      </nav>
+      </div>
 
       <div className="bg-glass-border mx-1 h-6 w-px" aria-hidden="true" />
 
-      <nav aria-label="Open windows" className="flex min-w-0 flex-1 items-center gap-1">
+      <div
+        role="group"
+        aria-label="Open windows"
+        className="flex min-w-0 flex-1 items-center gap-1"
+      >
         {running.map((instance) => {
           const isFocused = focusedId === instance.id;
           const isMinimised = instance.state === 'minimised';
@@ -83,11 +98,11 @@ export function Taskbar() {
             </button>
           );
         })}
-      </nav>
+      </div>
 
       <SystemTray />
       <ShowDesktopButton />
-    </div>
+    </nav>
   );
 }
 

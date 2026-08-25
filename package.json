@@ -2,7 +2,7 @@
   "name": "s-os",
   "version": "0.1.0",
   "private": true,
-  "description": "S-OS — Seedorf Operating System. A browser-based desktop environment that doubles as a software engineering portfolio.",
+  "description": "S-OS \u2014 Seedorf Operating System. A browser-based desktop environment that doubles as a software engineering portfolio.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -37,6 +37,7 @@
     "@types/react": "^19.2.18",
     "@types/react-dom": "^19.2.4",
     "@vitejs/plugin-react": "^6.0.5",
+    "axe-core": "^4.13.0",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.3.0",
     "eslint-config-prettier": "^10.1.8",
