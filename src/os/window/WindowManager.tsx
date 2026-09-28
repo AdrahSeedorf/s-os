@@ -19,22 +19,44 @@ export function WindowManager() {
   const setViewport = useWindowStore((state) => state.setViewport);
   const cycleFocus = useWindowStore((state) => state.cycleFocus);
 
-  // Keep the window manager's idea of the viewport in step with the browser,
-  // so windows are re-fitted when the window is resized or a tablet rotates.
+  /**
+   * Keep the window manager's idea of the viewport in step with the screen.
+   *
+   * The screen, not the browser window. S-OS renders inside a monitor bezel,
+   * so `window.innerWidth` overstates the usable area by the width of the
+   * frame — windows would be draggable underneath it and a maximised window
+   * would tuck its edges out of sight.
+   *
+   * A ResizeObserver on the screen element covers browser resizes, device
+   * rotation and the media query that collapses the bezel on small viewports,
+   * none of which a `resize` listener alone would catch.
+   */
   useEffect(() => {
     const taskbarHeight = readTaskbarHeight();
+    const screen = document.querySelector<HTMLElement>('[data-sos-screen]');
 
     const sync = () => {
+      const bounds = screen?.getBoundingClientRect();
+
       setViewport({
-        width: window.innerWidth,
-        height: window.innerHeight,
+        width: Math.round(bounds?.width ?? window.innerWidth),
+        height: Math.round(bounds?.height ?? window.innerHeight),
         taskbarHeight,
       });
     };
 
     sync();
-    window.addEventListener('resize', sync);
-    return () => window.removeEventListener('resize', sync);
+
+    // Fall back to the window when there is no frame — the tests render the
+    // manager on its own, and a future layout might not have one.
+    if (!screen || typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', sync);
+      return () => window.removeEventListener('resize', sync);
+    }
+
+    const observer = new ResizeObserver(sync);
+    observer.observe(screen);
+    return () => observer.disconnect();
   }, [setViewport]);
 
   /**

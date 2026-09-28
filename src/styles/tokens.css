@@ -105,6 +105,22 @@
   --sos-icon-neutral: #94a3b8;
   --sos-icon-neutral-tint: #cbd5e1;
 
+  /* --- Monitor ---------------------------------------------------------
+     The bezel S-OS is displayed inside. Kept deliberately thin: the frame
+     has one job, which is to say "screen" immediately, and every pixel it
+     takes is a pixel the desktop does not get for the rest of the visit.
+
+     Collapses to zero below the mobile breakpoint — see the media query at
+     the foot of this file. */
+  --sos-bezel: 10px;
+  --sos-bezel-chin: 18px;
+  --sos-bezel-bg: #11161d;
+  --sos-bezel-edge: rgb(255 255 255 / 0.07);
+  --sos-bezel-radius: 16px;
+  --sos-screen-radius: 6px;
+  --sos-monitor-shadow: 0 0 0 1px rgb(0 0 0 / 0.6), 0 24px 60px -20px rgb(0 0 0 / 0.75);
+  --sos-led: var(--sos-accent-500);
+
   /* --- Focus -----------------------------------------------------------
      A single, loud, never-removed focus treatment. Keyboard operability is
      a hard constraint in S-OS, so the focus ring is a first-class token. */
@@ -212,4 +228,32 @@
   --sos-duration-fast: 0ms;
   --sos-duration-normal: 0ms;
   --sos-duration-slow: 0ms;
+}
+
+/* ==========================================================================
+   Monitor bezel — responsive and high-contrast behaviour
+   ========================================================================== */
+@media (max-width: 767px) {
+  :root {
+    /* A phone is not a monitor, and the pixels are scarcer. */
+    --sos-bezel: 0px;
+    --sos-bezel-chin: 0px;
+    --sos-bezel-radius: 0px;
+    --sos-screen-radius: 0px;
+  }
+}
+
+/* Short viewports lose the chin first: vertical space is the constraint on a
+   laptop, and the chin is the only part of the frame that is decorative
+   rather than structural. */
+@media (max-height: 640px) and (min-width: 768px) {
+  :root {
+    --sos-bezel: 6px;
+    --sos-bezel-chin: 6px;
+  }
+}
+
+[data-contrast='high'] {
+  --sos-bezel-edge: #6f8ba3;
+  --sos-bezel-bg: #000000;
 }

@@ -233,6 +233,65 @@
     box-shadow: inset 0 1px 3px rgb(0 0 0 / 0.5);
   }
 
+  /* --- Monitor bezel ---------------------------------------------------
+     The frame is a fixed layer the whole OS lives inside. The screen child
+     carries a transform so that `position: fixed` descendants — the boot,
+     login and power screens — resolve against the screen instead of the
+     viewport, and therefore cannot paint over the bezel. */
+  .sos-monitor {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background-color: var(--sos-bezel-bg);
+    padding: var(--sos-bezel) var(--sos-bezel) var(--sos-bezel-chin);
+    border-radius: var(--sos-bezel-radius);
+    box-shadow: var(--sos-monitor-shadow);
+  }
+
+  .sos-monitor__screen {
+    position: relative;
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+    border-radius: var(--sos-screen-radius);
+    background-color: var(--sos-bg-void);
+    /* Establishes a containing block for fixed-position descendants. See the
+       note in MonitorFrame.tsx — this single line is what keeps the boot
+       sequence inside the screen. */
+    transform: translateZ(0);
+  }
+
+  .sos-monitor__highlight {
+    position: absolute;
+    top: 0;
+    right: var(--sos-bezel-radius);
+    left: var(--sos-bezel-radius);
+    height: 1px;
+    background-color: var(--sos-bezel-edge);
+    pointer-events: none;
+  }
+
+  .sos-monitor__led {
+    position: absolute;
+    bottom: calc((var(--sos-bezel-chin) - 4px) / 2);
+    left: 50%;
+    height: 4px;
+    width: 4px;
+    transform: translateX(-50%);
+    border-radius: 9999px;
+    background-color: var(--sos-led);
+    opacity: 0.55;
+    pointer-events: none;
+  }
+
+  /* Nothing to show when the bezel has collapsed to nothing. */
+  @media (max-width: 767px) {
+    .sos-monitor__highlight,
+    .sos-monitor__led {
+      display: none;
+    }
+  }
+
   /* Windows scale up slightly as they open. No bounce — an operating system
      should feel mechanical. Neutralised by prefers-reduced-motion via the
      motion-safe variant at the call site. */

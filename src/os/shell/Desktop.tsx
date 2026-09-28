@@ -32,8 +32,10 @@ export function Desktop() {
     if (opened === null) openApp('project', { projectId: pending });
   }, [consumePendingApp, openApp]);
 
+  // h-full rather than h-screen: inside the monitor frame the viewport is
+  // taller than the screen, and 100vh would push the taskbar behind the bezel.
   return (
-    <div className="relative h-screen overflow-hidden" data-shell="desktop">
+    <div className="relative h-full overflow-hidden" data-shell="desktop">
       <Wallpaper />
 
       {/* The desktop's content is entirely dynamic, so without this the
