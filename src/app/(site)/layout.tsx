@@ -59,6 +59,12 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
           <p className="text-disabled">
             {site.fullName} · a portfolio built as a desktop operating system.
           </p>
+          <p className="pt-1">
+            <Link href="/privacy" className="hover:text-secondary transition-colors">
+              Privacy
+            </Link>
+            <span className="text-disabled"> · no cookies, no analytics, no tracking</span>
+          </p>
         </div>
       </footer>
     </div>

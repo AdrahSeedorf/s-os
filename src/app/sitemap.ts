@@ -28,6 +28,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: 'monthly',
       priority: 0.8,
     },
+    {
+      // Low priority rather than omitted: a privacy page that search engines
+      // cannot find is one a visitor cannot verify independently.
+      url: `${site.url}/privacy`,
+      lastModified: now,
+      changeFrequency: 'yearly' as const,
+      priority: 0.2,
+    },
     ...getProjects().map((project) => ({
       url: `${site.url}/projects/${project.id}`,
       lastModified: now,
