@@ -38,7 +38,7 @@ import {
   AdrahFarmsGlyph,
   CapstoneGlyph,
   EvNetworkGlyph,
-  HiddenTruthsGlyph,
+  FinalLevelGlyph,
   Hotel734Glyph,
   LibraryGlyph,
   NineBoardGlyph,
@@ -62,7 +62,7 @@ export const iconRegistry: Readonly<Record<string, ComponentType<GlyphProps>>> =
   // Projects
   sos: SosProjectGlyph,
   capstone: CapstoneGlyph,
-  'hidden-truths': HiddenTruthsGlyph,
+  'final-level': FinalLevelGlyph,
   'hotel-734': Hotel734Glyph,
   'adrah-farms': AdrahFarmsGlyph,
   'ev-network': EvNetworkGlyph,

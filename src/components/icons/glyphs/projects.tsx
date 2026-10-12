@@ -68,8 +68,8 @@ export function CapstoneGlyph(props: GlyphProps) {
   );
 }
 
-/** Hidden Truths — a dated keepsake, sealed with a heart. */
-export function HiddenTruthsGlyph(props: GlyphProps) {
+/** Final Level — a dated keepsake, sealed with a heart. */
+export function FinalLevelGlyph(props: GlyphProps) {
   return (
     <IconFrame {...props}>
       <rect x="2.5" y="5" width="19" height="15.5" rx="2.4" fill={ink.base} />

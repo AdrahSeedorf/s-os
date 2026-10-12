@@ -115,7 +115,7 @@ export const skills: readonly Skill[] = [
     name: 'Framer Motion',
     category: 'frontend',
     level: 'working-knowledge',
-    note: 'Screen transitions and cinematic sequencing in Hidden Truths.',
+    note: 'Screen transitions and cinematic sequencing in Final Level.',
   },
 
   // --- Backend -----------------------------------------------------------
@@ -144,14 +144,7 @@ export const skills: readonly Skill[] = [
     name: 'Authentication & Authorisation',
     category: 'backend',
     level: 'working-knowledge',
-    note: 'Auth.js sessions, Argon2id hashing, and a single server-side permission gate.',
-  },
-  {
-    id: 'llm-integration',
-    name: 'LLM Integration',
-    category: 'backend',
-    level: 'working-knowledge',
-    note: 'Prompt design and defensive response parsing against the Anthropic API.',
+    note: 'Auth.js sessions, Argon2id hashing, a single server-side permission gate, and a middleware access gate covering static media.',
   },
 
   // --- Databases ---------------------------------------------------------
@@ -277,14 +270,14 @@ export const skills: readonly Skill[] = [
     name: 'Event Sourcing',
     category: 'practices',
     level: 'working-knowledge',
-    note: 'Append-only ledgers where the current figure is always derived, never stored.',
+    note: 'Append-only population, stock and price ledgers across a 59-model schema, with every current figure derived.',
   },
   {
     id: 'discrete-event-simulation',
     name: 'Discrete-Event Simulation',
     category: 'practices',
     level: 'working-knowledge',
-    note: 'A queueing simulator whose measured waits corrected a static model by 1,500x.',
+    note: 'A queueing simulator whose measured waits corrected a static model by 1,500x, run over two unrelated domains.',
   },
   {
     id: 'legacy-code',

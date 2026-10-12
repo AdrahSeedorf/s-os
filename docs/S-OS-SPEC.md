@@ -48,11 +48,14 @@ Author: technical partner notes for Seedorf Obeng-Mireku
 
 ### 1.4 Open items — blocking full content build
 
-1. **Capstone** — folder not yet connected. The entry is a placeholder with a
-   publication note, and stays that way until the real repository is available.
-2. ~~Date Generator~~ — resolved as *Hidden Truths*, written from the
-   repository and deliberately unpublished: it contains private personal
-   material, so it carries a `publicationNote` and no links.
+1. ~~Capstone~~ — the repository is connected and the entry is now written from
+   it. The `publicationNote` stays: the source and screenshots belong to the
+   project sponsor, not to me.
+2. ~~Date Generator~~ — resolved as *Final Level*, written from the repository
+   and deliberately unpublished: it contains private personal material, so it
+   carries a `publicationNote` and no links. The date generator itself has since
+   left that repository for a separate follow-on project, *Hidden Truths*, which
+   has no entry here — so this one took the name of its own repository instead.
 3. ~~Hotel System~~ — resolved as *734*, a Next.js 14 design prototype on mock
    data.
 4. ~~GitHub, LinkedIn, public email~~ — done.

@@ -41,6 +41,7 @@ export const nineBoardTicTacToe: Project = {
     'Move ordering from the transposition table, which is where most of the pruning comes from',
     'Monte Carlo tree search: UCB1 selection, single-node expansion, light random playouts, backpropagation',
     'A tournament harness for AI-versus-AI matches and search benchmarks',
+    'Board rendering that highlights the board the next move is forced into, and names the winning board in the result',
     '62 checks including apply/undo round-trips over 300 random games and Zobrist hash consistency, clean under AddressSanitizer and UndefinedBehaviorSanitizer',
   ],
 
@@ -76,5 +77,5 @@ export const nineBoardTicTacToe: Project = {
   // approximate date nobody can check is worth less than a precise one that
   // anyone can.
   dateStarted: '2026-08',
-  dateCompleted: '2026-08',
+  dateCompleted: '2026-09',
 };

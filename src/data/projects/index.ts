@@ -5,7 +5,7 @@ import { evNetworkToolkit } from './ev-network-toolkit';
 import { libraryManagement } from './library-management';
 import { hotel734 } from './hotel-734';
 import { nineBoardTicTacToe } from './nine-board-tictactoe';
-import { hiddenTruths } from './hidden-truths';
+import { finalLevel } from './final-level';
 import { capstone } from './capstone';
 
 /**
@@ -28,5 +28,5 @@ export const projects: readonly Project[] = [
   libraryManagement,
   nineBoardTicTacToe,
   hotel734,
-  hiddenTruths,
+  finalLevel,
 ];
